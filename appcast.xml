@@ -6,6 +6,21 @@
         <description>Les versions de Sélecta, la plus récente en premier.</description>
         <language>fr</language>
         <item>
+            <title>0.1.4</title>
+            <pubDate>Fri, 23 Oct 2026 13:20:08 +0200</pubDate>
+            <link>https://rapha-blt.github.io/selecta/</link>
+            <sparkle:version>5</sparkle:version>
+            <sparkle:shortVersionString>0.1.4</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <description sparkle:format="markdown"><![CDATA[# Sélecta 0.1.4
+
+- La barre peut être plus petite : le réglage Taille, dans Réglages › Général, descend maintenant
+  jusqu'à 60 %.
+- La taille standard est marquée « Par défaut » sous le curseur (macOS 26 et suivants).
+]]></description>
+            <enclosure url="https://github.com/rapha-blt/selecta/releases/download/v0.1.4/Selecta-0.1.4.dmg" length="4524526" type="application/octet-stream" sparkle:edSignature="Hm8pjtH+OW2uFZ+Jxl1qX1hJi/cHAbypWqg60CHNc0HGWPk7t1cb1GL4WcHB9/KpqlqIWVp2gBgQ1jlzAYxCCA=="/>
+        </item>
+        <item>
             <title>0.1.3</title>
             <pubDate>Fri, 23 Oct 2026 12:23:31 +0200</pubDate>
             <link>https://rapha-blt.github.io/selecta/</link>
