@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+  <channel>
+    <title>Sélecta</title>
+    <link>https://rapha-blt.github.io/selecta/appcast.xml</link>
+    <description>Les versions de Sélecta, la plus récente en premier.</description>
+    <language>fr</language>
+  </channel>
+</rss>
