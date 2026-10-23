@@ -6,6 +6,22 @@
         <description>Les versions de Sélecta, la plus récente en premier.</description>
         <language>fr</language>
         <item>
+            <title>0.1.2</title>
+            <pubDate>Fri, 23 Oct 2026 11:08:29 +0200</pubDate>
+            <link>https://rapha-blt.github.io/selecta/</link>
+            <sparkle:version>3</sparkle:version>
+            <sparkle:shortVersionString>0.1.2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <description sparkle:format="markdown"><![CDATA[# Sélecta 0.1.2
+
+- Nouvelle icône : un passage surligné entre ses deux poignées de sélection. L'icône de la barre des
+  menus change avec elle.
+- Le DMG d'installation s'ouvre sur une fenêtre plus claire : Sélecta à gauche, le dossier Applications
+  à droite, et une flèche de l'un vers l'autre.
+]]></description>
+            <enclosure url="https://github.com/rapha-blt/selecta/releases/download/v0.1.2/Selecta-0.1.2.dmg" length="4408520" type="application/octet-stream" sparkle:edSignature="gy0mh11phmDGgawBDArcQr7djq+6GLrqp4d2pfe0pFKZd9k80O2trJT0iOvhHtTq9k4cbIQjC2TBj6vvn2JUDQ=="/>
+        </item>
+        <item>
             <title>0.1.1</title>
             <pubDate>Fri, 23 Oct 2026 10:09:40 +0200</pubDate>
             <link>https://rapha-blt.github.io/selecta/</link>
