@@ -1,9 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
-  <channel>
-    <title>Sélecta</title>
-    <link>https://rapha-blt.github.io/selecta/appcast.xml</link>
-    <description>Les versions de Sélecta, la plus récente en premier.</description>
-    <language>fr</language>
-  </channel>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>Sélecta</title>
+        <link>https://rapha-blt.github.io/selecta/appcast.xml</link>
+        <description>Les versions de Sélecta, la plus récente en premier.</description>
+        <language>fr</language>
+        <item>
+            <title>0.1.0</title>
+            <pubDate>Fri, 23 Oct 2026 03:08:42 +0200</pubDate>
+            <link>https://rapha-blt.github.io/selecta/</link>
+            <sparkle:version>1</sparkle:version>
+            <sparkle:shortVersionString>0.1.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <description sparkle:format="markdown"><![CDATA[# Sélecta 0.1.0
+
+Première version publique.
+
+- Une barre d'actions apparaît quand vous sélectionnez du texte : copier, chercher sur le web et
+  d'autres actions selon ce que vous avez sélectionné, ou avec un raccourci clavier.
+- Des extensions à installer, en JavaScript, AppleScript, Shell ou sans code. Celles qui vont au-delà de
+  la sélection (Internet, AppleScript, Shell) demandent votre accord.
+- Des exclusions par app et par site web, dans Safari et les navigateurs Chromium.
+- La synchronisation par iCloud des réglages et des extensions entre vos Mac.
+- Les mises à jour, proposées par Sélecta lui-même.
+]]></description>
+            <enclosure url="https://github.com/rapha-blt/selecta/releases/download/v0.1.0/Selecta-0.1.0.dmg" length="4732177" type="application/octet-stream" sparkle:edSignature="9S759I0rxHqP4hbhB8z4Gsq50wkXFj8tkntE9OR9ooOwv2PyNjQ9bbWlyGyJxAqM1XfriCTct/HsUPvhpmGkAA=="/>
+        </item>
+    </channel>
 </rss>
