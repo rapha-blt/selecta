@@ -6,6 +6,25 @@
         <description>Les versions de Sélecta, la plus récente en premier.</description>
         <language>fr</language>
         <item>
+            <title>0.1.3</title>
+            <pubDate>Fri, 23 Oct 2026 12:23:31 +0200</pubDate>
+            <link>https://rapha-blt.github.io/selecta/</link>
+            <sparkle:version>4</sparkle:version>
+            <sparkle:shortVersionString>0.1.3</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <description sparkle:format="markdown"><![CDATA[# Sélecta 0.1.3
+
+- Nouveau réglage Taille dans Réglages › Général : la barre va de 80 % à 160 %, et un aperçu sous le
+  curseur montre le résultat pendant que vous le déplacez.
+- Quand vous sélectionnez le code d'une extension Sélecta, « Installer l'extension » est le premier
+  bouton de la barre, écrit en toutes lettres. Les configs JSON sont reconnues aussi.
+- Au premier lancement, une courte visite présente Sélecta, montre comment faire apparaître la barre
+  et guide l'autorisation Accessibilité.
+- Cliquer ou glisser sur le nom d'un onglet ne fait plus apparaître la barre.
+]]></description>
+            <enclosure url="https://github.com/rapha-blt/selecta/releases/download/v0.1.3/Selecta-0.1.3.dmg" length="4520411" type="application/octet-stream" sparkle:edSignature="rXDQFOtYfVPZFXfji5LsgVsn0Eti+OV3KgZunKD0f89ugCdYEK4//Xq5KyG5/NEh0C5bP4BAgcf5LI8TlT92Cg=="/>
+        </item>
+        <item>
             <title>0.1.2</title>
             <pubDate>Fri, 23 Oct 2026 11:08:29 +0200</pubDate>
             <link>https://rapha-blt.github.io/selecta/</link>
