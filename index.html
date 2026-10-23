@@ -1,24 +1,325 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" class="no-js">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sélecta</title>
-  <style>
-    :root { color-scheme: light dark; --text: #1d1d1f; --muted: #6e6e73; --bg: #ffffff; --accent: #6a4cf5; }
-    @media (prefers-color-scheme: dark) { :root { --text: #f5f5f7; --muted: #a1a1a6; --bg: #1c1c1e; --accent: #9d8bff; } }
-    body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.5 -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; }
-    main { max-width: 560px; margin: 0 auto; padding: 64px 16px; }
-    h1 { font-size: 34px; margin: 0 0 8px; }
-    p { color: var(--muted); margin: 0 0 24px; }
-    a.button { display: inline-block; padding: 10px 18px; border-radius: 10px; background: var(--accent); color: #fff; text-decoration: none; font-weight: 600; }
-  </style>
+  <title>Sélecta · Une barre d'actions pour le texte que vous sélectionnez</title>
+  <meta name="description" content="Sélecta affiche une barre d'actions juste au-dessus du texte que vous sélectionnez sur votre Mac : copier, chercher, traduire, transformer, et les extensions que vous ajoutez.">
+  <meta name="theme-color" content="#f7f7f4" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#101113" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Sélecta">
+  <meta property="og:description" content="Une barre d'actions pour le texte que vous sélectionnez sur votre Mac.">
+  <meta property="og:image" content="https://rapha-blt.github.io/selecta/assets/og.png">
+  <meta property="og:url" content="https://rapha-blt.github.io/selecta/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/icon.png">
+  <link rel="alternate" type="application/rss+xml" title="Versions de Sélecta" href="appcast.xml">
+  <link rel="stylesheet" href="assets/site.css">
+  <script>document.documentElement.classList.replace("no-js", "js")</script>
+  <script src="assets/site.js" defer></script>
 </head>
 <body>
-  <main>
-    <h1>Sélecta</h1>
-    <p>Une barre d'actions quand vous sélectionnez du texte sur votre Mac. macOS 14 ou plus récent.</p>
-    <a class="button" href="https://github.com/rapha-blt/selecta/releases/latest">Télécharger la dernière version</a>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#" aria-label="Sélecta, haut de la page">
+        <img src="assets/icon.png" alt="" width="28" height="28">
+        <span>Sélecta</span>
+      </a>
+      <nav class="nav-links" aria-label="Sections">
+        <a href="#fonctions">Fonctions</a>
+        <a href="#extensions">Extensions</a>
+        <a href="#confidentialite">Confidentialité</a>
+        <a href="#installer">Installer</a>
+      </nav>
+      <a class="button button-small" data-download href="https://github.com/rapha-blt/selecta/releases/latest">Télécharger</a>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <section class="hero">
+      <div class="container hero-inner">
+        <img class="hero-icon reveal" src="assets/icon.png" alt="" width="104" height="104">
+        <h1 class="reveal" style="--d: 80ms">Sélectionnez du texte.<br><span class="mark">Agissez</span> aussitôt.</h1>
+        <p class="lead reveal" style="--d: 160ms">Sélecta affiche une barre d'actions juste au-dessus du texte que vous sélectionnez, dans toutes vos apps : copier, chercher, traduire, transformer… sans quitter ce que vous faites.</p>
+        <div class="cta reveal" style="--d: 240ms">
+          <a class="button" data-download href="https://github.com/rapha-blt/selecta/releases/latest">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.5v8m0 0-3.2-3.2M8 10.5l3.2-3.2M3 13.5h10"/></svg>
+            Télécharger pour Mac
+          </a>
+          <p class="cta-meta"><span data-version>Dernière version</span> · macOS 14 ou plus récent · Apple Silicon et Intel</p>
+        </div>
+
+        <figure class="demo reveal" style="--d: 320ms">
+          <div class="window" aria-hidden="true">
+            <div class="window-bar">
+              <span class="lights"><i></i><i></i><i></i></span>
+              <span class="window-title">Réunion de mardi</span>
+            </div>
+            <div class="window-body" data-demo>
+              <div class="doc">
+                <p>Bonjour Camille,</p>
+                <p><span data-group="phrase" data-unit="word">Pouvons-nous déplacer la réunion à mardi 14 h ?</span> Le compte rendu est en ligne : <span data-group="url" data-unit="char">https://exemple.fr/compte-rendu</span>. Pour toute question, écrivez à <span data-group="mail" data-unit="char">equipe@exemple.fr</span>.</p>
+                <p>À bientôt !</p>
+              </div>
+              <div class="bar" data-bar></div>
+              <div class="toast" data-toast></div>
+              <div class="cursor" data-cursor>
+                <svg class="cursor-arrow" viewBox="0 0 20 24"><path d="M2 2v17.5l4.6-4.4 3 6.9 3.2-1.4-3-6.8h6.4z"/></svg>
+                <svg class="cursor-beam" viewBox="0 0 12 22"><path d="M2.5 2h2.6c.6 0 .9.4.9.9 0-.5.3-.9.9-.9h2.6M6 3v16M2.5 20h2.6c.6 0 .9-.4.9-.9 0 .5.3.9.9.9h2.6"/></svg>
+              </div>
+            </div>
+          </div>
+          <figcaption class="demo-caption">
+            <span class="demo-steps" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span data-caption>Une phrase : la barre propose de la traduire.</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section steps-section">
+      <div class="container">
+        <ol class="steps">
+          <li class="reveal">
+            <span class="step-number">1</span>
+            <h3>Sélectionnez</h3>
+            <p>En glissant, d'un double ou d'un triple clic, avec ⇧ et un clic, ou avec le raccourci clavier de votre choix.</p>
+          </li>
+          <li class="reveal" style="--d: 80ms">
+            <span class="step-number">2</span>
+            <h3>La barre apparaît</h3>
+            <p>En moins de 150 millisecondes, juste au-dessus de votre sélection. Votre app garde la main : rien ne vole le focus.</p>
+          </li>
+          <li class="reveal" style="--d: 160ms">
+            <span class="step-number">3</span>
+            <h3>Choisissez une action</h3>
+            <p>Un clic, et c'est fait. Échap, ou un clic ailleurs, et la barre s'efface.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" id="fonctions">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Fonctions</p>
+          <h2>Les bonnes actions, <span class="mark">au bon moment</span>.</h2>
+          <p>Sélecta regarde ce que vous avez sélectionné et où vous êtes, puis ne vous propose que ce qui a du sens.</p>
+        </header>
+
+        <div class="bento">
+          <article class="card card-wide reveal" data-animate>
+            <div class="card-art detect" aria-hidden="true">
+              <div class="detect-row"><code>https://exemple.fr</code><span class="chip"><svg viewBox="0 0 16 16"><path d="M6.6 9.4l2.8-2.8M7.2 4.6l1-1a2.7 2.7 0 0 1 3.8 3.8l-1 1M8.8 11.4l-1 1a2.7 2.7 0 0 1-3.8-3.8l1-1"/></svg>Ouvrir le lien</span></div>
+              <div class="detect-row"><code>equipe@exemple.fr</code><span class="chip"><svg viewBox="0 0 16 16"><rect x="2" y="3.5" width="12" height="9" rx="1.6"/><path d="m2.6 4.6 5.4 4.2 5.4-4.2"/></svg>Écrire un e-mail</span></div>
+              <div class="detect-row"><code>~/Documents/Rapport.pdf</code><span class="chip"><svg viewBox="0 0 16 16"><path d="M2 4.6a1 1 0 0 1 1-1h3l1.5 1.5H13a1 1 0 0 1 1 1V12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/></svg>Afficher dans le Finder</span></div>
+            </div>
+            <h3>Elle comprend ce que vous sélectionnez</h3>
+            <p>Une adresse web s'ouvre, une adresse e-mail devient un message, un chemin s'affiche dans le Finder. Là où l'on ne peut pas écrire, Couper et Coller s'effacent d'eux-mêmes.</p>
+          </article>
+
+          <article class="card reveal" style="--d: 80ms" data-animate>
+            <div class="card-art transform" aria-hidden="true">
+              <span class="transform-text" data-transform>bonjour le monde</span>
+              <span class="transform-keys"><b data-key="upper">ABC</b><b data-key="title">Abc</b><b data-key="lower">abc</b></span>
+            </div>
+            <h3>Transformez le texte sur place</h3>
+            <p>MAJUSCULES, minuscules ou Majuscule à chaque mot : le résultat remplace votre sélection, dans l'app où vous êtes.</p>
+          </article>
+
+          <article class="card reveal" data-animate>
+            <div class="card-art count" aria-hidden="true">
+              <div><b data-count="1284">0</b><span>caractères</span></div>
+              <div><b data-count="213">0</b><span>mots</span></div>
+            </div>
+            <h3>Comptez, cherchez, définissez</h3>
+            <p>Le nombre de caractères et de mots, le Dictionnaire de macOS, ou une recherche sur le web en un clic.</p>
+          </article>
+
+          <article class="card reveal" style="--d: 80ms" data-animate>
+            <div class="card-art engines" aria-hidden="true">
+              <span>Google</span><span>DuckDuckGo</span><span>Ecosia</span><span>Qwant</span><span>Bing</span><span>Startpage</span><span>Kagi</span><span class="engine-own">le vôtre</span>
+            </div>
+            <h3>Le moteur de recherche de votre choix</h3>
+            <p>Choisissez parmi les plus connus, ou donnez l'adresse de n'importe quel autre.</p>
+          </article>
+
+          <article class="card reveal" style="--d: 160ms" data-animate>
+            <div class="card-art exclude" aria-hidden="true">
+              <div class="exclude-row"><span>Terminal</span><i class="switch"></i></div>
+              <div class="exclude-row is-off"><span>banque.exemple.fr</span><i class="switch"></i></div>
+              <div class="exclude-row"><span>Notes</span><i class="switch"></i></div>
+            </div>
+            <h3>Silencieuse là où vous voulez</h3>
+            <p>Excluez une app, ou un site web dans Safari et les navigateurs Chromium. Dans un champ de mot de passe, Sélecta ne lit jamais rien.</p>
+          </article>
+
+          <article class="card reveal" data-animate>
+            <div class="card-art sync" aria-hidden="true">
+              <svg class="sync-mac" viewBox="0 0 48 36"><rect x="6" y="3" width="36" height="24" rx="3"/><path d="M2 31h44"/></svg>
+              <span class="sync-path"><i></i><i></i><i></i></span>
+              <svg class="sync-mac" viewBox="0 0 48 36"><rect x="6" y="3" width="36" height="24" rx="3"/><path d="M2 31h44"/></svg>
+            </div>
+            <h3>Vos réglages sur tous vos Mac</h3>
+            <p>Avec iCloud, vos réglages et vos extensions vous suivent d'un Mac à l'autre. Les clés d'API, elles, restent sur chaque Mac.</p>
+          </article>
+
+          <article class="card card-wide reveal" style="--d: 80ms" data-animate>
+            <div class="card-art looks" aria-hidden="true">
+              <div class="mini-bar"><span>Copier</span><span>Coller</span><span>ABC</span><span class="mini-pages">›</span></div>
+              <div class="mini-bar mini-hud"><span>Copier</span><span>Coller</span><span>ABC</span><span class="mini-pages">›</span></div>
+            </div>
+            <h3>Discrète et à votre goût</h3>
+            <p>Deux apparences, Popover ou HUD. L'ordre des actions se règle par glisser-déposer, et quand il y en a beaucoup, la barre les range sur plusieurs pages. Sélecta vit dans la barre des menus, sans icône dans le Dock.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="extensions">
+      <div class="container split">
+        <div class="split-text reveal">
+          <p class="eyebrow">Extensions</p>
+          <h2>Ajoutez <span class="mark">vos propres actions</span>.</h2>
+          <p>Une extension ajoute un ou plusieurs boutons à la barre. Double-cliquez sur un fichier <code>.selectaext</code> pour l'installer.</p>
+          <ul class="kinds">
+            <li><b>Sans code</b> une adresse web, un raccourci clavier ou un Raccourci de l'app Raccourcis</li>
+            <li><b>JavaScript</b> et TypeScript, avec accès au réseau si vous l'autorisez</li>
+            <li><b>AppleScript</b> pour piloter vos apps</li>
+            <li><b>Shell</b> pour tout le reste</li>
+          </ul>
+          <p class="note"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.6"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg>Une extension qui va au-delà de votre sélection (Internet, AppleScript, Shell) vous montre d'abord ce qu'elle pourra faire et attend votre accord.</p>
+        </div>
+        <div class="split-art reveal" style="--d: 120ms">
+          <div class="code-card">
+            <div class="code-head"><span class="lights"><i></i><i></i><i></i></span><span>Wikipedia.selectaext/Config.yaml</span></div>
+<pre><code><span class="c"># Une action sans code : une adresse où *** devient la sélection.</span>
+<span class="k">name:</span> Wikipédia
+<span class="k">identifier:</span> app.selecta.examples.wikipedia
+<span class="k">description:</span> Cherche la sélection dans Wikipédia en français.
+<span class="k">icon:</span> text:W
+<span class="k">requirements:</span> [text, <span class="s">'!url'</span>]
+<span class="k">url:</span> https://fr.wikipedia.org/w/index.php?search=<span class="m">***</span></code></pre>
+          </div>
+          <div class="ext-chips" aria-label="Exemples d'extensions">
+            <span>Traduire avec DeepL</span><span>Wikipédia</span><span>Markdown → HTML</span><span>Gras</span><span>Compteur de mots</span><span>Raccourcis</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section privacy" id="confidentialite">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Confidentialité</p>
+          <h2>Votre texte reste <span class="mark">sur votre Mac</span>.</h2>
+        </header>
+        <ul class="privacy-grid">
+          <li class="reveal"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10"/></svg><h3>Aucune frappe enregistrée</h3><p>Sélecta lit votre sélection quand vous la faites, et rien d'autre.</p></li>
+          <li class="reveal" style="--d: 60ms"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.6 3.5 5.4 3.5 8.5s-1.1 5.9-3.5 8.5c-2.4-2.6-3.5-5.4-3.5-8.5s1.1-5.9 3.5-8.5z"/></svg><h3>Rien ne part sans vous</h3><p>Le texte ne quitte votre Mac que si vous le confiez à une extension que vous avez autorisée à aller sur Internet.</p></li>
+          <li class="reveal" style="--d: 120ms"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4.5v8.2l-2-1.6a1.6 1.6 0 0 0-2.3 2.2L8.5 19a4 4 0 0 0 3 1.5H15a4 4 0 0 0 4-4v-5a1.5 1.5 0 0 0-3 0v-.5a1.5 1.5 0 0 0-3 0V10a1.5 1.5 0 0 0-3 0V4.5a1 1 0 0 0-2 0z"/></svg><h3>Un clic, une action</h3><p>Aucune extension ne s'exécute sans que vous cliquiez sur son bouton.</p></li>
+          <li class="reveal" style="--d: 180ms"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="M11 12l8.5-8.5M16.5 6.5l2 2M14.5 8.5l1.5 1.5"/></svg><h3>Clés dans le Trousseau</h3><p>Les clés d'API de vos extensions sont rangées dans le Trousseau de macOS, jamais en clair.</p></li>
+          <li class="reveal" style="--d: 240ms"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4.5 6v5.5c0 4.6 3.1 8.2 7.5 9.5 4.4-1.3 7.5-4.9 7.5-9.5V6z"/><path d="m8.8 12 2.2 2.2 4.4-4.4"/></svg><h3>Signée et notarisée</h3><p>Chaque version est vérifiée par Apple, et chaque mise à jour par sa signature avant d'être installée.</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="installer">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Installer</p>
+          <h2>Prête en <span class="mark">une minute</span>.</h2>
+        </header>
+        <ol class="install">
+          <li class="reveal" data-animate>
+            <div class="install-art" aria-hidden="true">
+              <span class="install-file"><img src="assets/icon.png" alt="" width="40" height="40"><span data-dmg-name>Selecta.dmg</span></span>
+            </div>
+            <h3>1. Téléchargez</h3>
+            <p>Le fichier DMG de la dernière version.</p>
+          </li>
+          <li class="reveal" style="--d: 80ms" data-animate>
+            <div class="install-art install-dmg" aria-hidden="true">
+              <img class="install-app" src="assets/icon.png" alt="" width="44" height="44">
+              <svg class="install-arrow" viewBox="0 0 80 24"><path d="M4 16q36-16 70 0M66 9l8 7-9 4"/></svg>
+              <svg class="install-folder" viewBox="0 0 48 40"><path d="M3 7a3 3 0 0 1 3-3h11l4 4h21a3 3 0 0 1 3 3v23a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3z"/></svg>
+            </div>
+            <h3>2. Glissez-la dans Applications</h3>
+            <p>Ouvrez le DMG et faites glisser Sélecta sur le dossier Applications.</p>
+          </li>
+          <li class="reveal" style="--d: 160ms" data-animate>
+            <div class="install-art install-settings" aria-hidden="true">
+              <span class="settings-row"><img src="assets/icon.png" alt="" width="22" height="22">Sélecta<i class="switch"></i></span>
+            </div>
+            <h3>3. Autorisez l'Accessibilité</h3>
+            <p>Au premier lancement, Sélecta vous guide jusqu'à Réglages Système › Confidentialité et sécurité › Accessibilité.</p>
+          </li>
+        </ol>
+        <p class="install-note reveal">Ensuite, les mises à jour arrivent toutes seules : Sélecta vous propose chaque nouvelle version, et rien ne s'installe sans votre accord.</p>
+      </div>
+    </section>
+
+    <section class="section" id="questions">
+      <div class="container narrow">
+        <header class="section-head reveal">
+          <p class="eyebrow">Questions</p>
+          <h2>Bon à savoir.</h2>
+        </header>
+        <div class="faq reveal">
+          <details>
+            <summary>Pourquoi Sélecta demande-t-elle l'accès Accessibilité ?</summary>
+            <p>Pour lire le texte que vous sélectionnez et sa position à l'écran, pour copier, coller ou remplacer ce texte à votre demande (⌘C, ⌘V), et pour afficher la barre au bon endroit sans voler le focus.</p>
+          </details>
+          <details>
+            <summary>Sur quels Mac fonctionne-t-elle ?</summary>
+            <p>Sur macOS 14 Sonoma ou plus récent, avec une puce Apple ou un processeur Intel.</p>
+          </details>
+          <details>
+            <summary>Pourquoi n'est-elle pas sur l'App Store ?</summary>
+            <p>Les apps de l'App Store sont enfermées dans un bac à sable qui leur interdit de lire et de remplacer le texte des autres apps. Sélecta est donc distribuée ici, signée et notarisée par Apple.</p>
+          </details>
+          <details>
+            <summary>Comment la faire taire dans une app ou sur un site ?</summary>
+            <p>Dans les réglages de Sélecta, ajoutez l'app ou le site aux exclusions. Les sites se règlent dans Safari et dans les navigateurs Chromium.</p>
+          </details>
+          <details>
+            <summary>Comment la mettre à jour ?</summary>
+            <p>Sélecta cherche elle-même les nouvelles versions une fois par jour et vous les propose. Vous pouvez aussi choisir « Rechercher les mises à jour… » dans son menu.</p>
+          </details>
+          <details>
+            <summary>Comment la désinstaller ?</summary>
+            <p>Quittez Sélecta depuis son menu, mettez-la à la Corbeille depuis le dossier Applications, puis retirez-la de la liste dans Réglages Système › Confidentialité et sécurité › Accessibilité.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section final">
+      <div class="container final-inner reveal">
+        <img src="assets/icon.png" alt="" width="72" height="72">
+        <h2>Essayez <span class="mark">Sélecta</span>.</h2>
+        <a class="button" data-download href="https://github.com/rapha-blt/selecta/releases/latest">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.5v8m0 0-3.2-3.2M8 10.5l3.2-3.2M3 13.5h10"/></svg>
+          Télécharger pour Mac
+        </a>
+        <p class="cta-meta"><span data-version>Dernière version</span> · macOS 14 ou plus récent</p>
+      </div>
+    </section>
   </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="brand brand-small"><img src="assets/icon.png" alt="" width="20" height="20">Sélecta</span>
+      <nav aria-label="Liens">
+        <a href="https://github.com/rapha-blt/selecta/releases">Toutes les versions</a>
+        <a href="appcast.xml">Flux des mises à jour</a>
+        <a href="https://github.com/rapha-blt/selecta">GitHub</a>
+      </nav>
+    </div>
+  </footer>
 </body>
 </html>
