@@ -20,7 +20,7 @@
 .toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
 .toc a { display: block; padding: 6px 10px; border-radius: 8px; font-size: 14px; line-height: 1.35; color: var(--muted); text-decoration: none; transition: background-color 0.2s, color 0.2s; }
 .toc a:hover { color: var(--ink); }
-.toc a[aria-current="true"] { color: var(--ink); background: var(--surface-2); box-shadow: inset 3px 0 0 var(--marker); }
+.toc a[aria-current="true"] { color: var(--ink); font-weight: 600; background: var(--surface-2); }
 
 /* MARK: Text */
 
@@ -45,7 +45,7 @@
 .guide-steps li + li { margin-top: 0; }
 .guide-steps li::before { content: counter(step); position: absolute; left: 0; top: -2px; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; background: var(--marker); color: var(--marker-ink); font-weight: 800; font-size: 14px; }
 
-.tip { margin-top: 20px !important; padding: 14px 18px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); box-shadow: inset 3px 0 0 var(--marker); font-size: 16px; }
+.tip { margin-top: 20px !important; padding: 14px 18px; border-radius: 14px; background: color-mix(in srgb, var(--marker) 12%, var(--surface)); border: 1px solid color-mix(in srgb, var(--marker) 40%, var(--line)); font-size: 16px; }
 
 /* MARK: Code */
 
