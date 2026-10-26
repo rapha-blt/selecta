@@ -3,6 +3,8 @@
 "use strict";
 
 const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+// The site's root, also from a page in a folder such as extensions/.
+const root = new URL("..", document.currentScript.src);
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // MARK: Navigation and appearing blocks
@@ -22,8 +24,8 @@ const appear = new IntersectionObserver((entries) => {
   }
 }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
 document.querySelectorAll(".reveal, [data-animate]").forEach((element) => appear.observe(element));
-// The hero appears at once, without waiting for the observer.
-requestAnimationFrame(() => document.querySelectorAll(".hero .reveal").forEach((element) => element.classList.add("is-in")));
+// The page's header appears at once, without waiting for the observer.
+requestAnimationFrame(() => document.querySelectorAll(".hero .reveal, .guide-hero .reveal").forEach((element) => element.classList.add("is-in")));
 
 /** Runs `start` once the card is on screen. */
 function whenShown(element, start) {
@@ -34,7 +36,7 @@ function whenShown(element, start) {
 // MARK: Latest version, read from the update feed
 
 const sparkle = "http://www.andymatuschak.org/xml-namespaces/sparkle";
-fetch("appcast.xml", { cache: "no-cache" })
+fetch(new URL("appcast.xml", root), { cache: "no-cache" })
   .then((response) => (response.ok ? response.text() : Promise.reject(response.status)))
   .then((text) => {
     const feed = new DOMParser().parseFromString(text, "application/xml");

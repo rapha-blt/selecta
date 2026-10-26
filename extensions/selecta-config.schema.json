@@ -1,0 +1,805 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://rapha-blt.github.io/selecta/extensions/selecta-config.schema.json",
+  "title": "Configuration d'une extension Sélecta",
+  "description": "Config.yaml, Config.json ou en-tête d'un snippet. Guide : https://rapha-blt.github.io/selecta/extensions/",
+  "type": "object",
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S",
+      "description": "Nom de l'extension."
+    },
+    "identifier": {
+      "type": "string",
+      "maxLength": 100,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.-]*$",
+      "description": "Identifiant unique, par exemple com.exemple.bonjour ; tiré du nom s'il manque."
+    },
+    "description": {
+      "type": "string",
+      "description": "Ce que fait l'extension."
+    },
+    "options": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/option"
+      },
+      "description": "Réglages de l'extension, propres à chaque instance."
+    },
+    "entitlements": {
+      "description": "Droits supplémentaires : network (fetch), applescript, shell.",
+      "anyOf": [
+        {
+          "enum": [
+            "network",
+            "applescript",
+            "shell"
+          ]
+        },
+        {
+          "type": "array",
+          "items": {
+            "enum": [
+              "network",
+              "applescript",
+              "shell"
+            ]
+          }
+        }
+      ]
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/action"
+      },
+      "minItems": 1,
+      "description": "Les actions ; ou bien une seule action décrite à la racine."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Titre du bouton, pour une action décrite à la racine ; le nom par défaut."
+    },
+    "icon": {
+      "$ref": "#/definitions/icon"
+    },
+    "requirements": {
+      "description": "Conditions pour que le bouton apparaisse ; [text] par défaut. ! renverse une condition.",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/requirement"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/requirement"
+          }
+        }
+      ]
+    },
+    "regex": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Expression régulière (ICU) que la sélection doit contenir ; le texte reconnu devient celui de l'action."
+    },
+    "apps": {
+      "description": "Identifiants des seules apps où le bouton apparaît.",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/bundleID"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/bundleID"
+          }
+        }
+      ]
+    },
+    "excludedApps": {
+      "description": "Identifiants des apps où le bouton n'apparaît pas.",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/bundleID"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/bundleID"
+          }
+        }
+      ]
+    },
+    "before": {
+      "enum": [
+        "copy"
+      ],
+      "description": "copy : copie la sélection (⌘C) avant l'action."
+    },
+    "after": {
+      "enum": [
+        "copy",
+        "paste-result",
+        "show-result",
+        "show-status",
+        "preview-result"
+      ],
+      "description": "Ce que devient le résultat : copié, collé, affiché, coche ou croix, ou proposé en bouton."
+    },
+    "stayVisible": {
+      "type": "boolean",
+      "default": false,
+      "description": "Garde la barre ouverte pendant une action rapide (url, keyCombo)."
+    },
+    "timeout": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 60,
+      "default": 10,
+      "description": "Durée maximale en secondes."
+    },
+    "interpreter": {
+      "type": "string",
+      "pattern": "^/",
+      "description": "Interpréteur d'un script Shell (chemin absolu) ; sinon le shebang, sinon /bin/zsh."
+    },
+    "url": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^\\s*[A-Za-z][A-Za-z0-9+.-]*:",
+      "description": "Adresse à ouvrir ; *** est remplacé par la sélection encodée."
+    },
+    "keyCombo": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S",
+      "description": "Combinaison de touches à taper, par exemple « command shift k »."
+    },
+    "service": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S",
+      "description": "Nom anglais d'un service macOS, tel que l'app le déclare."
+    },
+    "shortcut": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S",
+      "description": "Nom exact d'un Raccourci de l'app Raccourcis."
+    },
+    "javascript": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S",
+      "description": "Code JavaScript, corps d'une fonction async."
+    },
+    "typescript": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S",
+      "description": "Code TypeScript ; les types sont retirés avant l'exécution."
+    },
+    "javascriptFile": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/packagePath"
+        },
+        {
+          "pattern": "\\.([Jj][Ss]|[Tt][Ss])$"
+        }
+      ],
+      "description": "Fichier .js ou .ts du paquet."
+    },
+    "appleScript": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S",
+      "description": "Code AppleScript ; reçoit selectaText et selectaOptions."
+    },
+    "appleScriptFile": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/packagePath"
+        }
+      ],
+      "description": "Fichier AppleScript (texte) du paquet."
+    },
+    "shellScript": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S",
+      "description": "Script Shell ; reçoit SELECTA_TEXT et SELECTA_OPTION_<ID>."
+    },
+    "shellScriptFile": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/packagePath"
+        }
+      ],
+      "description": "Fichier Shell du paquet."
+    }
+  },
+  "patternProperties": {
+    "^x-": {}
+  },
+  "additionalProperties": false,
+  "oneOf": [
+    {
+      "required": [
+        "actions"
+      ],
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "url"
+            ]
+          },
+          {
+            "required": [
+              "keyCombo"
+            ]
+          },
+          {
+            "required": [
+              "service"
+            ]
+          },
+          {
+            "required": [
+              "shortcut"
+            ]
+          },
+          {
+            "required": [
+              "javascript"
+            ]
+          },
+          {
+            "required": [
+              "typescript"
+            ]
+          },
+          {
+            "required": [
+              "javascriptFile"
+            ]
+          },
+          {
+            "required": [
+              "appleScript"
+            ]
+          },
+          {
+            "required": [
+              "appleScriptFile"
+            ]
+          },
+          {
+            "required": [
+              "shellScript"
+            ]
+          },
+          {
+            "required": [
+              "shellScriptFile"
+            ]
+          }
+        ]
+      },
+      "properties": {
+        "title": false,
+        "interpreter": false
+      }
+    },
+    {
+      "not": {
+        "required": [
+          "actions"
+        ]
+      },
+      "allOf": [
+        {
+          "oneOf": [
+            {
+              "required": [
+                "url"
+              ]
+            },
+            {
+              "required": [
+                "keyCombo"
+              ]
+            },
+            {
+              "required": [
+                "service"
+              ]
+            },
+            {
+              "required": [
+                "shortcut"
+              ]
+            },
+            {
+              "required": [
+                "javascript"
+              ]
+            },
+            {
+              "required": [
+                "typescript"
+              ]
+            },
+            {
+              "required": [
+                "javascriptFile"
+              ]
+            },
+            {
+              "required": [
+                "appleScript"
+              ]
+            },
+            {
+              "required": [
+                "appleScriptFile"
+              ]
+            },
+            {
+              "required": [
+                "shellScript"
+              ]
+            },
+            {
+              "required": [
+                "shellScriptFile"
+              ]
+            }
+          ]
+        },
+        {
+          "if": {
+            "required": [
+              "interpreter"
+            ]
+          },
+          "then": {
+            "anyOf": [
+              {
+                "required": [
+                  "shellScript"
+                ]
+              },
+              {
+                "required": [
+                  "shellScriptFile"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "definitions": {
+    "icon": {
+      "type": "string",
+      "description": "« symbol:nom » (SF Symbol), « text:Abc » (6 caractères au plus) ou une image du paquet (png, pdf, svg, jpg, jpeg, heic, tiff).",
+      "anyOf": [
+        {
+          "pattern": "^\\s*symbol:\\S"
+        },
+        {
+          "pattern": "^\\s*text:.{1,6}\\s*$"
+        },
+        {
+          "pattern": "\\.([Pp][Nn][Gg]|[Pp][Dd][Ff]|[Ss][Vv][Gg]|[Jj][Pp][Ee]?[Gg]|[Hh][Ee][Ii][Cc]|[Tt][Ii][Ff][Ff])\\s*$"
+        },
+        {
+          "pattern": "^\\s*.{1,6}\\s*$"
+        }
+      ]
+    },
+    "requirement": {
+      "type": "string",
+      "enum": [
+        "text",
+        "copy",
+        "paste",
+        "url",
+        "email",
+        "path",
+        "!text",
+        "!copy",
+        "!paste",
+        "!url",
+        "!email",
+        "!path"
+      ]
+    },
+    "bundleID": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "packagePath": {
+      "type": "string",
+      "pattern": "^(?![/~])(?!.*(^|/)\\.\\.(/|$)).+$"
+    },
+    "option": {
+      "type": "object",
+      "required": [
+        "identifier"
+      ],
+      "properties": {
+        "identifier": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$",
+          "description": "Une lettre, puis des lettres, chiffres, _ ou -."
+        },
+        "type": {
+          "enum": [
+            "string",
+            "boolean",
+            "multiple",
+            "secret"
+          ],
+          "default": "string",
+          "description": "secret : rangé dans le Trousseau."
+        },
+        "label": {
+          "type": "string",
+          "description": "Libellé du réglage ; l'identifiant par défaut."
+        },
+        "description": {
+          "type": "string",
+          "description": "Aide affichée sous le réglage."
+        },
+        "defaultValue": {
+          "type": [
+            "string",
+            "number",
+            "boolean"
+          ],
+          "description": "Valeur de départ ; interdite pour un secret."
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "minItems": 1,
+          "description": "Choix d'une option multiple."
+        }
+      },
+      "patternProperties": {
+        "^x-": {}
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "multiple"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "values"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "secret"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "defaultValue"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "boolean"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "defaultValue": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "action": {
+      "type": "object",
+      "required": [
+        "title"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Titre du bouton."
+        },
+        "icon": {
+          "$ref": "#/definitions/icon"
+        },
+        "requirements": {
+          "description": "Conditions pour que le bouton apparaisse ; [text] par défaut. ! renverse une condition.",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/requirement"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/requirement"
+              }
+            }
+          ]
+        },
+        "regex": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Expression régulière (ICU) que la sélection doit contenir ; le texte reconnu devient celui de l'action."
+        },
+        "apps": {
+          "description": "Identifiants des seules apps où le bouton apparaît.",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/bundleID"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/bundleID"
+              }
+            }
+          ]
+        },
+        "excludedApps": {
+          "description": "Identifiants des apps où le bouton n'apparaît pas.",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/bundleID"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/bundleID"
+              }
+            }
+          ]
+        },
+        "before": {
+          "enum": [
+            "copy"
+          ],
+          "description": "copy : copie la sélection (⌘C) avant l'action."
+        },
+        "after": {
+          "enum": [
+            "copy",
+            "paste-result",
+            "show-result",
+            "show-status",
+            "preview-result"
+          ],
+          "description": "Ce que devient le résultat : copié, collé, affiché, coche ou croix, ou proposé en bouton."
+        },
+        "stayVisible": {
+          "type": "boolean",
+          "default": false,
+          "description": "Garde la barre ouverte pendant une action rapide (url, keyCombo)."
+        },
+        "timeout": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 60,
+          "default": 10,
+          "description": "Durée maximale en secondes."
+        },
+        "interpreter": {
+          "type": "string",
+          "pattern": "^/",
+          "description": "Interpréteur d'un script Shell (chemin absolu) ; sinon le shebang, sinon /bin/zsh."
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^\\s*[A-Za-z][A-Za-z0-9+.-]*:",
+          "description": "Adresse à ouvrir ; *** est remplacé par la sélection encodée."
+        },
+        "keyCombo": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S",
+          "description": "Combinaison de touches à taper, par exemple « command shift k »."
+        },
+        "service": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S",
+          "description": "Nom anglais d'un service macOS, tel que l'app le déclare."
+        },
+        "shortcut": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S",
+          "description": "Nom exact d'un Raccourci de l'app Raccourcis."
+        },
+        "javascript": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S",
+          "description": "Code JavaScript, corps d'une fonction async."
+        },
+        "typescript": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S",
+          "description": "Code TypeScript ; les types sont retirés avant l'exécution."
+        },
+        "javascriptFile": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/packagePath"
+            },
+            {
+              "pattern": "\\.([Jj][Ss]|[Tt][Ss])$"
+            }
+          ],
+          "description": "Fichier .js ou .ts du paquet."
+        },
+        "appleScript": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S",
+          "description": "Code AppleScript ; reçoit selectaText et selectaOptions."
+        },
+        "appleScriptFile": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/packagePath"
+            }
+          ],
+          "description": "Fichier AppleScript (texte) du paquet."
+        },
+        "shellScript": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S",
+          "description": "Script Shell ; reçoit SELECTA_TEXT et SELECTA_OPTION_<ID>."
+        },
+        "shellScriptFile": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/packagePath"
+            }
+          ],
+          "description": "Fichier Shell du paquet."
+        }
+      },
+      "patternProperties": {
+        "^x-": {}
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "oneOf": [
+            {
+              "required": [
+                "url"
+              ]
+            },
+            {
+              "required": [
+                "keyCombo"
+              ]
+            },
+            {
+              "required": [
+                "service"
+              ]
+            },
+            {
+              "required": [
+                "shortcut"
+              ]
+            },
+            {
+              "required": [
+                "javascript"
+              ]
+            },
+            {
+              "required": [
+                "typescript"
+              ]
+            },
+            {
+              "required": [
+                "javascriptFile"
+              ]
+            },
+            {
+              "required": [
+                "appleScript"
+              ]
+            },
+            {
+              "required": [
+                "appleScriptFile"
+              ]
+            },
+            {
+              "required": [
+                "shellScript"
+              ]
+            },
+            {
+              "required": [
+                "shellScriptFile"
+              ]
+            }
+          ]
+        },
+        {
+          "if": {
+            "required": [
+              "interpreter"
+            ]
+          },
+          "then": {
+            "anyOf": [
+              {
+                "required": [
+                  "shellScript"
+                ]
+              },
+              {
+                "required": [
+                  "shellScriptFile"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

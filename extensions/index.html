@@ -1,0 +1,722 @@
+<!doctype html>
+<html lang="fr" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Créer une extension · Sélecta</title>
+  <meta name="description" content="Le guide pour ajouter vos propres boutons à la barre de Sélecta : une adresse, un raccourci clavier, un Raccourci, ou un script JavaScript, TypeScript, AppleScript ou Shell.">
+  <meta name="theme-color" content="#f7f7f4" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#101113" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Créer une extension Sélecta">
+  <meta property="og:description" content="Ajoutez vos propres boutons à la barre de Sélecta, avec ou sans code.">
+  <meta property="og:image" content="https://rapha-blt.github.io/selecta/assets/og.png">
+  <meta property="og:url" content="https://rapha-blt.github.io/selecta/extensions/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+  <link rel="apple-touch-icon" href="../assets/icon.png">
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="../assets/guide.css">
+  <script>document.documentElement.classList.replace("no-js", "js")</script>
+  <script src="../assets/site.js" defer></script>
+  <script src="../assets/guide.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="../" aria-label="Sélecta, page d'accueil">
+        <img src="../assets/icon.png" alt="" width="28" height="28">
+        <span>Sélecta</span>
+      </a>
+      <nav class="nav-links" aria-label="Pages">
+        <a href="../#fonctions">Fonctions</a>
+        <a href="../#extensions">Extensions</a>
+        <a href="./" aria-current="page">Créer une extension</a>
+        <a href="../#installer">Installer</a>
+      </nav>
+      <a class="button button-small" data-download href="https://github.com/rapha-blt/selecta/releases/latest">Télécharger</a>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <header class="guide-hero">
+      <div class="container">
+        <p class="eyebrow reveal">Guide des extensions</p>
+        <h1 class="reveal" style="--d: 60ms">Créez vos propres <span class="mark">boutons</span>.</h1>
+        <p class="lead reveal" style="--d: 120ms">Une extension ajoute des boutons à la barre de Sélecta. Elle peut ouvrir une adresse, taper un raccourci clavier, lancer un Raccourci, ou exécuter un script JavaScript, TypeScript, AppleScript ou Shell qui reçoit le texte sélectionné. Ce guide part d'un exemple de quatre lignes et va jusqu'au détail du format.</p>
+        <ul class="guide-facts reveal" style="--d: 180ms">
+          <li>Un seul fichier suffit</li>
+          <li>Sans code, ou avec un script</li>
+          <li>Rien ne s'exécute sans votre clic</li>
+        </ul>
+      </div>
+    </header>
+
+    <div class="container guide-layout">
+      <aside class="toc">
+        <nav aria-label="Sommaire">
+          <p class="toc-title">Sommaire</p>
+          <ol>
+            <li><a href="#premiere-extension">Votre première extension</a></li>
+            <li><a href="#formats">Snippet, paquet, archive</a></li>
+            <li><a href="#installer">Installer et mettre à jour</a></li>
+            <li><a href="#sans-code">Actions sans code</a></li>
+            <li><a href="#plusieurs-boutons">Plusieurs boutons</a></li>
+            <li><a href="#conditions">Quand le bouton apparaît</a></li>
+            <li><a href="#resultat">Que faire du résultat</a></li>
+            <li><a href="#icones">Icônes</a></li>
+            <li><a href="#javascript">JavaScript et TypeScript</a></li>
+            <li><a href="#applescript">AppleScript</a></li>
+            <li><a href="#shell">Shell</a></li>
+            <li><a href="#options">Options et instances</a></li>
+            <li><a href="#securite">Sécurité</a></li>
+            <li><a href="#exemple">Un exemple complet</a></li>
+            <li><a href="#reference">Référence des clés</a></li>
+            <li><a href="#limites">Limites</a></li>
+            <li><a href="#depannage">Dépannage</a></li>
+            <li><a href="#editeur">Outils pour votre éditeur</a></li>
+          </ol>
+        </nav>
+      </aside>
+
+      <article class="prose">
+        <section id="premiere-extension">
+          <h2>Votre première extension</h2>
+          <p>Quatre lignes suffisent. Les lignes commentées du début décrivent l'extension ; le reste est le code lancé quand vous cliquez sur le bouton.</p>
+          <figure class="code-card" data-lang="js">
+            <figcaption class="code-head"><span class="lights"><i></i><i></i><i></i></span><span>bonjour.js</span></figcaption>
+<pre><code>// #selecta
+// name: Bonjour
+// icon: symbol:hand.wave
+sel.showText(`Bonjour, ${sel.input.text} !`)</code></pre>
+          </figure>
+          <ol class="guide-steps">
+            <li>Enregistrez ces lignes dans un fichier <code>bonjour.js</code>.</li>
+            <li>Ouvrez les réglages de Sélecta, onglet Extensions, et faites-y glisser le fichier.</li>
+            <li>Sélectionnez un mot n'importe où : un bouton en forme de main apparaît dans la barre. Cliquez dessus : la barre affiche « Bonjour, … ! ».</li>
+          </ol>
+          <p class="tip"><b>Encore plus rapide :</b> sélectionnez le code ci-dessus avec Sélecta. La barre reconnaît une extension et propose « Installer l'extension » en premier bouton.</p>
+        </section>
+
+        <section id="formats">
+          <h2>Snippet, paquet, archive</h2>
+          <p>Une extension tient dans un seul fichier, le snippet, ou dans un dossier, le paquet, qu'on peut compresser pour l'envoyer.</p>
+
+          <h3>Un fichier : le snippet</h3>
+          <ul>
+            <li>Extensions de fichier acceptées : <code>.js</code>, <code>.ts</code>, <code>.yaml</code>, <code>.yml</code> et <code>.txt</code> (par convention <code>.selecta.txt</code>).</li>
+            <li>La ligne <code>#selecta</code> est dans les <b>trois premières lignes</b>, après un éventuel shebang (<code>#!/bin/zsh</code>) ou des lignes vides.</li>
+            <li>Chaque ligne d'en-tête commence par le même préfixe de commentaire : <code>//</code>, <code>#</code> ou <code>--</code>.</li>
+            <li>L'en-tête est du YAML, avec les mêmes clés qu'un <code>Config.yaml</code>. Il s'arrête à la première ligne sans ce préfixe ; le reste du fichier est le code de l'action.</li>
+            <li>Le langage vient de l'extension du fichier (<code>.js</code>, <code>.ts</code>) ou de la clé <code>language</code> : <code>javascript</code>, <code>typescript</code>, <code>applescript</code> ou <code>shell</code>. Sans l'un ni l'autre, c'est du JavaScript.</li>
+            <li>Un snippet décrit une seule action et ne peut pas utiliser d'autre fichier, comme une icône ou un script à part : pour cela, il faut un paquet.</li>
+          </ul>
+          <p>Les numéros de ligne des erreurs correspondent au fichier, en-tête compris. Un script Shell garde son shebang.</p>
+          <figure class="code-card" data-lang="sh">
+            <figcaption class="code-head"><span class="lights"><i></i><i></i><i></i></span><span>majuscules.selecta.txt</span></figcaption>
+<pre><code>#!/bin/zsh
+# #selecta
+# name: Majuscules
+# language: shell
+# after: paste-result
+print -r -- "${SELECTA_TEXT:u}"</code></pre>
+          </figure>
+          <figure class="code-card" data-lang="applescript">
+            <figcaption class="code-head"><span class="lights"><i></i><i></i><i></i></span><span>lire.selecta.txt</span></figcaption>
+<pre><code>-- #selecta
+-- name: Lire à voix haute
+-- language: applescript
+say selectaText</code></pre>
+          </figure>
+          <p>Un fichier <code>.yaml</code> seul, sans en-tête, décrit une extension sans code :</p>
+          <figure class="code-card" data-lang="yaml">
+            <figcaption class="code-head"><span class="lights"><i></i><i></i><i></i></span><span>mdn.yaml</span></figcaption>
+<pre><code>name: Rechercher sur MDN
+icon: text:MDN
+url: https://developer.mozilla.org/fr/search?q=***</code></pre>
+          </figure>
+
+          <h3>Un dossier : le paquet <code>.selectaext</code></h3>
+          <p>Un dossier dont le nom finit par <code>.selectaext</code>. Quand Sélecta est installée, le Finder l'affiche comme un seul fichier. Il contient :</p>
+          <ul>
+            <li><code>Config.yaml</code>, <code>Config.yml</code> ou <code>Config.json</code> ;</li>
+            <li>les fichiers que la config cite : scripts (<code>javascriptFile</code>, <code>appleScriptFile</code>, <code>shellScriptFile</code>) et icônes ;</li>
+            <li>ce que vous voulez d'autre : un README, une licence.</li>
+          </ul>
+          <p>Les chemins sont relatifs au dossier du paquet et ne peuvent pas en sortir : pas de <code>/</code> au début, pas de <code>~</code>, pas de <code>..</code>. Les liens symboliques sont refusés.</p>
+          <figure class="code-card" data-lang="yaml">
+            <figcaption class="code-head"><span class="lights"><i></i><i></i><i></i></span><span>Bonjour.selectaext/Config.yaml</span></figcaption>
+<pre><code>name: Bonjour
+identifier: com.exemple.bonjour
+icon: symbol:hand.wave
+javascript: sel.showText(`Bonjour, ${sel.input.text} !`)</code></pre>
+          </figure>
+
+          <h3>Une archive : <code>.selectaextz</code></h3>
+          <p>Le paquet compressé en zip, pratique à envoyer par e-mail ou à proposer au téléchargement. L'archive contient les fichiers du paquet, ou un seul dossier qui les contient. Pour la créer dans le Terminal :</p>
+          <figure class="code-card" data-lang="sh">
+            <figcaption class="code-head"><span class="lights"><i></i><i></i><i></i></span><span>Terminal</span></figcaption>
+<pre><code>ditto -c -k --keepParent Bonjour.selectaext Bonjour.selectaextz</code></pre>
+          </figure>
+
+          <h3>Du texte sélectionné</h3>
+          <p>Le code d'un snippet, ou une config YAML ou JSON, dans un e-mail, une page web ou une note : sélectionnez-le, et la barre propose « Installer l'extension ». Le texte doit faire moins de 64 Ko, et contenir <code>#selecta</code> dans ses trois premières lignes, ou être un YAML ou un objet JSON avec <code>name</code> et une action.</p>
+        </section>
+
+        <section id="installer">
+          <h2>Installer et mettre à jour</h2>
+          <ul>
+            <li>Double-cliquez sur un <code>.selectaext</code> ou un <code>.selectaextz</code>.</li>
+            <li>Faites glisser un fichier sur l'onglet Extensions des réglages.</li>
+            <li>Cliquez sur le bouton + de l'onglet Extensions.</li>
+            <li>Ou sélectionnez le code de l'extension, puis cliquez sur « Installer l'extension » dans la barre.</li>
+          </ul>
+          <p>Sélecta garde sa propre copie de l'extension : vous pouvez ensuite supprimer le fichier d'origine. Une extension qui n'utilise ni Internet, ni AppleScript, ni Shell s'installe directement ; sinon, Sélecta vous montre d'abord ce qu'elle pourra faire (voir <a href="#securite">Sécurité</a>).</p>
+          <p>Pour mettre une extension à jour, réinstallez-la avec le même <code>identifier</code> : elle est remplacée après confirmation, et ses réglages sont gardés. Avec la synchro iCloud (Réglages › Général), vos extensions passent aussi sur vos autres Mac.</p>
+          <p>Pour relire les fichiers d'une extension installée : onglet Extensions › « Source… ».</p>
+        </section>
+
+        <section id="sans-code">
+          <h2>Actions sans code</h2>
+          <p>Une seule clé dit ce que fait le bouton. Quatre d'entre elles ne demandent aucun code.</p>
+
+          <h3><code>url</code> : ouvrir une adresse</h3>
+          <figure class="code-card" data-lang="yaml">
+            <figcaption class="code-head"><span class="lights"><i></i><i></i><i></i></span><span>Wikipedia.selectaext/Config.yaml</span></figcaption>
+<pre><code>name: Wikipédia
+identifier: app.selecta.examples.wikipedia
+description: Cherche la sélection dans Wikipédia en français.
+icon: text:W
+# Pas quand la sélection contient une adresse web : « Ouvrir le lien » s'en charge.
+requirements: [text, '!url']
+url: https://fr.wikipedia.org/w/index.php?search=***</code></pre>
+          </figure>
+          <p><code>***</code> est remplacé par la sélection, sans les espaces et retours à la ligne du début et de la fin, et encodée pour une adresse (<code>&amp;</code>, <code>=</code>, <code>+</code>, <code>?</code> et <code>#</code> compris). Sans <code>***</code>, l'adresse s'ouvre telle quelle. Tout schéma marche : <code>https:</code>, <code>mailto:</code>, <code>x-apple.systempreferences:</code>, celui d'une app…</p>
+
+          <h3><code>keyCombo</code> : taper un raccourci clavier</h3>
+          <figure class="code-card" data-lang="yaml">
+<pre><code>keyCombo: command b</code></pre>
+          </figure>
+          <p>Des modificateurs dans n'importe quel ordre, puis une touche, séparés par des espaces ou des <code>+</code> :</p>
+          <ul>
+            <li>modificateurs : <code>command</code> (<code>cmd</code>, <code>⌘</code>), <code>shift</code> (<code>⇧</code>), <code>option</code> (<code>opt</code>, <code>alt</code>, <code>⌥</code>), <code>control</code> (<code>ctrl</code>, <code>⌃</code>) ;</li>
+            <li>touche : un caractère (<code>b</code>, <code>é</code>, <code>1</code>, <code>/</code>), ou <code>return</code> (<code>enter</code>), <code>tab</code>, <code>space</code>, <code>escape</code> (<code>esc</code>), <code>delete</code> (<code>backspace</code>).</li>
+          </ul>
+          <p>La touche suit la disposition du clavier : <code>command z</code> tape bien ⌘Z sur un clavier AZERTY.</p>
+
+          <h3><code>service</code> : appeler un service macOS</h3>
+          <figure class="code-card" data-lang="yaml">
+<pre><code>service: Make Sticky</code></pre>
+          </figure>
+          <p>Le nom que l'app déclare, <b>en anglais</b>, même quand le menu Services l'affiche en français : « Make Sticky » et non « Créer une nouvelle note ». Il se trouve dans l'<code>Info.plist</code> de l'app (clic droit sur l'app › Afficher le contenu du paquet › Contents), sous <code>NSServices</code> › <code>NSMenuItem</code> › <code>default</code>. Si le service renvoie du texte, c'est le résultat de l'action.</p>
+
+          <h3><code>shortcut</code> : lancer un Raccourci</h3>
+          <figure class="code-card" data-lang="yaml">
+            <figcaption class="code-head"><span class="lights"><i></i><i></i><i></i></span><span>Raccourci.selectaext/Config.yaml</span></figcaption>
+<pre><code>name: Raccourci Sélecta
+identifier: app.selecta.examples.shortcut
+icon: symbol:square.2.layers.3d
+after: show-result
+# Raccourcis met parfois quelques secondes à démarrer.
+timeout: 30
+shortcut: Sélecta</code></pre>
+          </figure>
+          <p>Le nom exact du Raccourci, majuscules et accents compris. La sélection est son entrée ; ce qu'il renvoie avec « Arrêter et renvoyer », ou sa dernière action, est le résultat. Au premier lancement après l'ouverture de session, macOS met quelques secondes à démarrer Raccourcis et la barre se ferme : un résultat à afficher est alors perdu. Les clics suivants sont rapides.</p>
+        </section>
+
+        <section id="plusieurs-boutons">
+          <h2>Plusieurs boutons</h2>
+          <p>La clé <code>actions</code> liste plusieurs actions, chacune avec son <code>title</code>. Les clés données à la racine (<code>requirements</code>, <code>regex</code>, <code>apps</code>, <code>excludedApps</code>, <code>before</code>, <code>after</code>, <code>stayVisible</code> et <code>timeout</code>) valent pour toutes les actions qui ne les redonnent pas.</p>
+          <figure class="code-card" data-lang="yaml">
+            <figcaption class="code-head"><span class="lights"><i></i><i></i><i></i></span><span>Outils.selectaext/Config.yaml</span></figcaption>
+<pre><code>name: Outils de texte
+identifier: com.exemple.outils
+requirements: [text, paste]     # pour toutes les actions
+after: paste-result
+actions:
+  - title: Majuscules
+    icon: text:AB
+    javascript: return sel.input.text.toUpperCase()
+  - title: Minuscules
+    icon: text:ab
+    javascript: return sel.input.text.toLowerCase()</code></pre>
+          </figure>
+          <p>Une extension a soit <code>actions</code>, soit une action décrite directement à la racine, comme dans les exemples précédents, pas les deux. Dans l'onglet Actions des réglages, chaque bouton se range, se cache ou se met dans un dossier comme les actions de Sélecta.</p>
+        </section>
+
+        <section id="conditions">
+          <h2>Quand le bouton apparaît</h2>
+          <p>Le bouton n'apparaît que si toutes ses conditions sont remplies.</p>
+
+          <h3><code>requirements</code></h3>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Condition</th><th>Vraie quand</th></tr></thead>
+            <tbody>
+              <tr><td><code>text</code></td><td>la sélection n'est pas vide, ni faite que d'espaces (par défaut)</td></tr>
+              <tr><td><code>copy</code></td><td>la sélection peut être copiée</td></tr>
+              <tr><td><code>paste</code></td><td>la sélection est dans un champ modifiable</td></tr>
+              <tr><td><code>url</code></td><td>la sélection contient une adresse web</td></tr>
+              <tr><td><code>email</code></td><td>elle contient une adresse e-mail</td></tr>
+              <tr><td><code>path</code></td><td>elle contient un chemin de fichier</td></tr>
+            </tbody>
+          </table></div>
+          <figure class="code-card" data-lang="yaml">
+<pre><code>requirements: [text, paste, '!url']   # du texte modifiable qui n'est pas une adresse</code></pre>
+          </figure>
+          <p>Un <code>!</code> devant une condition la renverse ; en YAML, mettez-la alors entre guillemets. Une seule condition peut s'écrire sans crochets : <code>requirements: paste</code>.</p>
+
+          <h3><code>regex</code></h3>
+          <figure class="code-card" data-lang="yaml">
+<pre><code>regex: '\b[A-Z]{2,}-\d+\b'           # un ticket comme SEL-42
+url: https://exemple.atlassian.net/browse/***</code></pre>
+          </figure>
+          <p>La sélection doit contenir une correspondance (syntaxe ICU, celle de <code>NSRegularExpression</code>). Le texte reconnu remplace alors la sélection pour l'action : c'est lui que reçoivent <code>***</code>, les services, les Raccourcis et les scripts AppleScript et Shell. En JavaScript, il est dans <code>sel.input.matchedText</code>, le texte entier restant dans <code>sel.input.text</code>. Mettez la regex entre apostrophes pour que les <code>\</code> restent tels quels ; <code>(?i)</code> au début ignore la casse.</p>
+
+          <h3><code>apps</code> et <code>excludedApps</code></h3>
+          <p>Les seules apps où le bouton apparaît, ou celles où il n'apparaît pas, par leur identifiant : <code>com.apple.TextEdit</code>, <code>com.apple.Safari</code>, <code>com.microsoft.VSCode</code>… Pour trouver celui d'une app :</p>
+          <figure class="code-card" data-lang="sh">
+            <figcaption class="code-head"><span class="lights"><i></i><i></i><i></i></span><span>Terminal</span></figcaption>
+<pre><code>osascript -e 'id of app "TextEdit"'</code></pre>
+          </figure>
+        </section>
+
+        <section id="resultat">
+          <h2>Que faire du résultat</h2>
+          <p><code>after</code> dit ce que devient le résultat de l'action : ce que renvoie le script, le service ou le Raccourci. Sans <code>after</code>, il est ignoré, et un résultat vide ne fait rien.</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Valeur</th><th>Effet</th></tr></thead>
+            <tbody>
+              <tr><td><code>copy</code></td><td>Le résultat va dans le presse-papiers.</td></tr>
+              <tr><td><code>paste-result</code></td><td>Le résultat remplace la sélection. Hors d'un champ modifiable, il est copié et la barre le dit.</td></tr>
+              <tr><td><code>show-result</code></td><td>Le résultat s'affiche dans la barre.</td></tr>
+              <tr><td><code>show-status</code></td><td>Une coche ou une croix s'affiche, sans le résultat.</td></tr>
+              <tr><td><code>preview-result</code></td><td>Le résultat devient un bouton de la barre : un clic dessus le colle si le champ est modifiable, le copie sinon.</td></tr>
+            </tbody>
+          </table></div>
+          <p><code>before: copy</code> copie la sélection (⌘C) avant l'action, pour une app qui ne donne pas sa sélection autrement. Si rien n'est copié en une demi-seconde, l'action n'est pas lancée.</p>
+          <p>Une action <code>url</code> ou <code>keyCombo</code> ferme la barre avant de s'exécuter, sauf avec <code>stayVisible: true</code> ou un <code>after</code> qui s'affiche dans la barre. Les autres gardent la barre ouverte, avec un indicateur d'attente, jusqu'à leur fin. <code>timeout</code> borne leur durée : 10 secondes par défaut, 60 au plus. En cas d'erreur, la barre affiche une croix rouge et le message.</p>
+        </section>
+
+        <section id="icones">
+          <h2>Icônes</h2>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Forme</th><th>Exemple</th><th>Rendu</th></tr></thead>
+            <tbody>
+              <tr><td><code>symbol:&lt;nom&gt;</code></td><td><code>symbol:globe</code></td><td>Un symbole SF ; les noms se trouvent dans l'app SF Symbols d'Apple.</td></tr>
+              <tr><td><code>text:&lt;texte&gt;</code></td><td><code>text:DE</code></td><td>Quelques lettres, 6 caractères au plus.</td></tr>
+              <tr><td>un fichier du paquet</td><td><code>icone.png</code></td><td>Une image <code>png</code>, <code>pdf</code>, <code>svg</code>, <code>jpg</code>, <code>jpeg</code>, <code>heic</code> ou <code>tiff</code>.</td></tr>
+            </tbody>
+          </table></div>
+          <p>Une valeur courte sans préfixe, comme <code>DE</code>, vaut <code>text:DE</code>. Une image s'affiche telle quelle, sans s'adapter au mode sombre : choisissez-la lisible sur fond clair comme sur fond sombre. Préférez un PDF ou un SVG, ou un PNG d'au moins 32 × 32 pixels. Sans icône, le bouton affiche son titre.</p>
+        </section>
+
+        <section id="javascript">
+          <h2>JavaScript et TypeScript</h2>
+          <p>Le code est le corps d'une fonction <code>async</code> : <code>await</code> marche directement, et <code>return</code> donne le résultat de l'action, que <code>after</code> utilise.</p>
+          <figure class="code-card" data-lang="yaml">
+            <figcaption class="code-head"><span class="lights"><i></i><i></i><i></i></span><span>inverser.yaml</span></figcaption>
+<pre><code>name: Inverser les mots
+icon: symbol:arrow.left.arrow.right
+requirements: [text, paste]
+after: paste-result
+javascript: |
+  const mots = sel.input.text.trim().split(/\s+/)
+  return mots.reverse().join(' ')</code></pre>
+          </figure>
+          <ul>
+            <li>Un texte renvoyé est utilisé tel quel ; un objet ou un tableau devient du JSON, un nombre ou un booléen son texte ; <code>undefined</code> et <code>null</code> veulent dire « pas de résultat ».</li>
+            <li>Une exception non rattrapée, ou une promesse rejetée, fait échouer l'action : la barre affiche une croix et le message, avec sa ligne.</li>
+            <li>Chaque clic part d'un environnement neuf : rien ne reste d'un clic à l'autre.</li>
+            <li>Le moteur est JavaScriptCore, celui de Safari : du JavaScript moderne, sans DOM ni <code>window</code>, sans <code>import</code> ni <code>require</code>.</li>
+          </ul>
+          <p class="tip"><b>YAML sur une ligne :</b> un code qui contient « : » suivi d'une espace, ou qui commence par <code>{</code>, <code>[</code>, <code>`</code>, <code>*</code>, <code>&amp;</code>, <code>!</code>, <code>%</code> ou <code>@</code>, est mal lu. Mettez-le dans un bloc <code>|</code>, comme ci-dessus.</p>
+
+          <h3><code>sel.input</code> : la sélection</h3>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Propriété</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>text</code></td><td><code>string</code></td><td>Le texte sélectionné, entier.</td></tr>
+              <tr><td><code>matchedText</code></td><td><code>string</code></td><td>Le texte reconnu par la <code>regex</code> de l'action, sinon la sélection entière.</td></tr>
+              <tr><td><code>regexResult</code></td><td><code>string[]</code> ou absent</td><td>La correspondance (indice 0) puis ses groupes ; absent sans <code>regex</code>.</td></tr>
+              <tr><td><code>html</code></td><td><code>string</code> ou absent</td><td>La sélection en HTML, quand l'app donne sa mise en forme.</td></tr>
+              <tr><td><code>markdown</code></td><td><code>string</code> ou absent</td><td>La sélection en Markdown (gras, italique, liens, code).</td></tr>
+              <tr><td><code>data.urls</code></td><td><code>string[]</code></td><td>Les adresses web trouvées dans la sélection.</td></tr>
+              <tr><td><code>data.emails</code></td><td><code>string[]</code></td><td>Les adresses e-mail.</td></tr>
+              <tr><td><code>data.paths</code></td><td><code>string[]</code></td><td>Les chemins de fichier.</td></tr>
+            </tbody>
+          </table></div>
+          <p><code>html</code> et <code>markdown</code> ne sont lus que si le code contient ces mots. Certaines apps ne donnent pas de mise en forme : testez la propriété avant de l'utiliser.</p>
+
+          <h3><code>sel.context</code> : où vous êtes</h3>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Propriété</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>appName</code></td><td><code>string</code></td><td>Le nom de l'app au premier plan.</td></tr>
+              <tr><td><code>appIdentifier</code></td><td><code>string</code> ou absent</td><td>Son identifiant (<code>com.apple.Safari</code>).</td></tr>
+              <tr><td><code>browserUrl</code></td><td><code>string</code> ou absent</td><td>L'adresse de la page, dans un navigateur ; lue seulement si le code contient <code>browserUrl</code>.</td></tr>
+              <tr><td><code>canPaste</code></td><td><code>boolean</code></td><td>La sélection est dans un champ modifiable.</td></tr>
+              <tr><td><code>canCopy</code></td><td><code>boolean</code></td><td>La sélection peut être copiée.</td></tr>
+            </tbody>
+          </table></div>
+          <p><code>sel.options</code> donne la valeur de chaque <a href="#options">option</a>, par identifiant : du texte, ou un booléen pour une option <code>boolean</code>. <code>sel.input</code>, <code>sel.context</code> et <code>sel.options</code> sont en lecture seule.</p>
+
+          <h3>Les fonctions de <code>sel</code></h3>
+          <p>Celles qui agissent sur le système renvoient une promesse : mettez <code>await</code> devant si la suite en dépend.</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Fonction</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>sel.copyText(texte)</code></td><td>Met le texte dans le presse-papiers.</td></tr>
+              <tr><td><code>sel.pasteText(texte)</code></td><td>Remplace la sélection par le texte ; hors d'un champ modifiable, le copie.</td></tr>
+              <tr><td><code>sel.showText(texte)</code></td><td>Affiche le texte dans la barre à la fin du script.</td></tr>
+              <tr><td><code>sel.showSuccess()</code></td><td>Affiche une coche à la fin du script.</td></tr>
+              <tr><td><code>sel.showFailure(message?)</code></td><td>Fait échouer l'action : une croix, et le message s'il y en a un.</td></tr>
+              <tr><td><code>sel.openUrl(adresse)</code></td><td>Ouvre l'adresse, qui doit avoir un schéma (<code>https:</code>…).</td></tr>
+              <tr><td><code>sel.pressKey(combinaison)</code></td><td>Tape une combinaison, comme <code>keyCombo</code> (<code>"command shift k"</code>).</td></tr>
+              <tr><td><code>sel.performService(nom, texte?)</code></td><td>Appelle un service ; renvoie son texte, ou <code>null</code>.</td></tr>
+              <tr><td><code>sel.runShortcut(nom, entrée?)</code></td><td>Lance un Raccourci ; renvoie sa sortie, ou <code>null</code>.</td></tr>
+              <tr><td><code>sel.runAppleScript(code, texte?)</code></td><td>Lance un AppleScript (entitlement <code>applescript</code>) ; renvoie sa sortie, ou <code>null</code>.</td></tr>
+              <tr><td><code>sel.runShellScript(code, texte?)</code></td><td>Lance un script Shell, <code>/bin/zsh</code> sauf shebang (entitlement <code>shell</code>) ; renvoie sa sortie, ou <code>null</code>.</td></tr>
+            </tbody>
+          </table></div>
+          <p>Sans <code>texte</code>, les quatre dernières reçoivent <code>sel.input.matchedText</code>. <code>showText</code>, <code>showSuccess</code> et <code>showFailure</code> notent ce que la barre affichera à la fin du script : le dernier appel l'emporte, et <code>showFailure</code> passe avant tout, rien n'est alors collé ni copié. <code>showText</code> et <code>showSuccess</code> ne s'affichent que si <code>after</code> n'affiche rien lui-même.</p>
+
+          <h3><code>fetch</code> : aller sur Internet</h3>
+          <p>Avec l'entitlement <code>network</code> seulement, et pour des adresses <code>http:</code> ou <code>https:</code>.</p>
+          <figure class="code-card" data-lang="js">
+<pre><code>const réponse = await fetch('https://api.exemple.com/traduire', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${sel.options.jeton}` },
+  body: JSON.stringify({ texte: sel.input.text }),
+})
+if (!réponse.ok) {
+  sel.showFailure(`Le service a répondu ${réponse.status}.`)
+  return
+}
+return (await réponse.json()).traduction</code></pre>
+          </figure>
+          <ul>
+            <li>Options : <code>method</code> (<code>GET</code> par défaut), <code>headers</code> (un objet), <code>body</code> (un texte : passez par <code>JSON.stringify</code> pour un objet).</li>
+            <li>Réponse : <code>url</code>, <code>status</code>, <code>statusText</code>, <code>ok</code> (code de 200 à 299), <code>headers</code> (noms en minuscules), <code>text()</code> et <code>json()</code>.</li>
+            <li>Une réponse d'erreur (404, 500) n'est pas une exception : testez <code>ok</code> ou <code>status</code>. <code>fetch</code> ne rejette que si la requête n'aboutit pas.</li>
+            <li>Pas de cookies ni de cache ; la réponse est limitée à 10 Mo.</li>
+          </ul>
+
+          <h3>Autres outils</h3>
+          <ul>
+            <li><code>util.base64.encode(texte)</code>, <code>util.base64.decode(base64)</code> ; <code>util.hash.sha256(texte)</code>, <code>sha1</code> et <code>md5</code>, en hexadécimal minuscule.</li>
+            <li><code>console.log(…)</code>, et <code>info</code>, <code>warn</code>, <code>error</code>, <code>debug</code> : écrit dans les journaux de Sélecta quand « Journaux des extensions » est activé (voir <a href="#depannage">Dépannage</a>).</li>
+            <li><code>setTimeout</code> et <code>clearTimeout</code> : les minuteurs encore en attente à la fin du script sont annulés.</li>
+          </ul>
+
+          <h3>TypeScript</h3>
+          <p>Avec la clé <code>typescript</code>, ou un fichier <code>.ts</code>, Sélecta retire les types avant de lancer le code, sans les vérifier. Seule la syntaxe qui disparaît sans rien changer au code est acceptée, comme avec l'option <code>--erasableSyntaxOnly</code> de TypeScript :</p>
+          <ul>
+            <li>acceptés : annotations de type, <code>interface</code>, <code>type</code>, <code>as</code>, <code>satisfies</code>, <code>!</code> non nul, génériques, <code>declare</code>, <code>public</code> / <code>private</code> / <code>protected</code> / <code>readonly</code> sur les champs, <code>implements</code> ;</li>
+            <li>refusés : <code>enum</code>, <code>namespace</code>, propriétés de paramètres (<code>constructor(private x: number)</code>), décorateurs, <code>import x =</code>.</li>
+          </ul>
+          <figure class="code-card" data-lang="js">
+            <figcaption class="code-head"><span class="lights"><i></i><i></i><i></i></span><span>compter.ts</span></figcaption>
+<pre><code>// #selecta
+// name: Compter les mots
+// icon: text:123
+interface Compte { mots: number; caractères: number }
+const texte: string = sel.input.text.trim()
+const compte: Compte = { mots: texte ? texte.split(/\s+/).length : 0, caractères: [...texte].length }
+sel.showText(`${compte.mots} mots, ${compte.caractères} caractères`)</code></pre>
+          </figure>
+        </section>
+
+        <section id="applescript">
+          <h2>AppleScript</h2>
+          <p>Le script reçoit <code>selectaText</code>, le texte reconnu (la sélection, ou ce que reconnaît la <code>regex</code>), et <code>selectaOptions</code>, un enregistrement des options : <code>formel of selectaOptions</code>. Ce que le script renvoie, avec <code>return</code> ou par sa dernière instruction, est le résultat de l'action.</p>
+          <figure class="code-card" data-lang="applescript">
+            <figcaption class="code-head"><span class="lights"><i></i><i></i><i></i></span><span>note.selecta.txt</span></figcaption>
+<pre><code>-- #selecta
+-- name: Nouvelle note
+-- language: applescript
+-- after: show-status
+tell application "Notes"
+  make new note with properties {body:selectaText}
+end tell</code></pre>
+          </figure>
+          <p class="tip"><b>Automatisation :</b> la première fois qu'un script pilote une app (Notes, Mail, Finder…), macOS demande si Sélecta peut la contrôler. Cette demande ferme la barre, et ce premier clic échoue souvent. Répondez « Autoriser », puis cliquez à nouveau sur le bouton. Si vous avez refusé, réautorisez Sélecta dans Réglages Système › Confidentialité et sécurité › Automatisation.</p>
+        </section>
+
+        <section id="shell">
+          <h2>Shell</h2>
+          <p>Le script reçoit <code>SELECTA_TEXT</code>, le texte reconnu, et <code>SELECTA_OPTION_&lt;ID&gt;</code> pour chaque option : l'identifiant en majuscules, <code>-</code> remplacé par <code>_</code>, et <code>1</code> ou <code>0</code> pour une option <code>boolean</code>. Ce qu'il écrit sur la sortie standard, sans les retours à la ligne de la fin, est le résultat. Un code de sortie autre que 0 fait échouer l'action, avec ce que le script a écrit sur la sortie d'erreur.</p>
+          <figure class="code-card" data-lang="sh">
+            <figcaption class="code-head"><span class="lights"><i></i><i></i><i></i></span><span>lettres.selecta.txt</span></figcaption>
+<pre><code># #selecta
+# name: Compter les lettres
+# language: shell
+# after: show-result
+print -r -- "$SELECTA_TEXT" | tr -d '[:space:]' | wc -c | tr -d ' '</code></pre>
+          </figure>
+          <ul>
+            <li><b>Interpréteur</b> : la clé <code>interpreter</code> (un chemin absolu, comme <code>/usr/bin/python3</code>), sinon le shebang du script, sinon <code>/bin/zsh</code>.</li>
+            <li><b>Environnement</b> : réduit à <code>PATH</code> (avec <code>/opt/homebrew/bin</code> et <code>/usr/local/bin</code>), <code>HOME</code>, <code>USER</code>, <code>LOGNAME</code>, <code>SHELL</code>, <code>TMPDIR</code> et <code>LANG</code>. Votre <code>~/.zshrc</code> n'est pas lu : écrivez le chemin complet d'un outil installé ailleurs.</li>
+            <li><b>Dossier courant</b> : celui de l'extension, pour lancer un autre fichier du paquet (<code>./outil.py</code>).</li>
+            <li>Rien n'arrive sur l'entrée standard : passez par <code>SELECTA_TEXT</code>, toujours entre guillemets (<code>"$SELECTA_TEXT"</code>), car le texte peut contenir des espaces, des <code>*</code> ou des <code>;</code>.</li>
+          </ul>
+        </section>
+
+        <section id="options">
+          <h2>Options et instances</h2>
+          <p>Les options sont des réglages que l'utilisateur remplit dans l'onglet Extensions. Le script les lit dans <code>sel.options</code> (JavaScript), <code>selectaOptions</code> (AppleScript) ou <code>SELECTA_OPTION_&lt;ID&gt;</code> (Shell).</p>
+          <figure class="code-card" data-lang="yaml">
+<pre><code>options:
+  - identifier: apikey
+    type: secret
+    label: Clé d'API DeepL
+    description: Dans votre compte DeepL, onglet « Clés API ».
+  - identifier: cible
+    type: multiple
+    label: Traduire vers
+    values: [FR, EN-GB, DE]
+    defaultValue: FR
+  - identifier: formel
+    type: boolean
+    label: Vouvoyer
+    defaultValue: true</code></pre>
+          </figure>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Type</th><th>Réglage</th><th>Valeur reçue</th><th>Par défaut</th></tr></thead>
+            <tbody>
+              <tr><td><code>string</code></td><td>champ de texte</td><td>texte</td><td><code>defaultValue</code>, sinon vide</td></tr>
+              <tr><td><code>boolean</code></td><td>interrupteur</td><td><code>true</code> / <code>false</code></td><td><code>defaultValue</code>, sinon <code>false</code></td></tr>
+              <tr><td><code>multiple</code></td><td>menu</td><td>l'un des <code>values</code></td><td><code>defaultValue</code>, sinon le premier</td></tr>
+              <tr><td><code>secret</code></td><td>champ masqué</td><td>texte</td><td>vide</td></tr>
+            </tbody>
+          </table></div>
+          <p>Chaque option a un <code>identifier</code> (une lettre, puis des lettres, chiffres, <code>_</code> ou <code>-</code>), et peut avoir un <code>label</code>, une <code>description</code> affichée dessous et une <code>defaultValue</code>, sauf un secret. <code>values</code> est obligatoire pour <code>multiple</code>.</p>
+          <p>Un <b>secret</b>, comme une clé d'API, est rangé dans le Trousseau de macOS, jamais dans les préférences de Sélecta. Il n'est jamais réaffiché, et le script ne le reçoit qu'au moment du clic. Ne l'écrivez pas dans les journaux.</p>
+          <p>Une <b>instance</b> est une copie de l'extension avec son nom, son icône et ses valeurs d'options. « Dupliquer », dans l'onglet Extensions, en crée une : par exemple « DeepL » vers le français et « DeepL allemand » vers l'allemand, chacune avec son bouton.</p>
+        </section>
+
+        <section id="securite">
+          <h2>Sécurité</h2>
+          <p>Une extension ne s'exécute <b>que</b> quand vous cliquez sur son bouton : aucun code ne tourne à l'installation, ni quand la barre apparaît. Pour aller au-delà de la sélection, elle doit le déclarer dans <code>entitlements</code> :</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Entitlement</th><th>Permet</th><th>Ce que Sélecta vous dit avant l'installation</th></tr></thead>
+            <tbody>
+              <tr><td><code>network</code></td><td><code>fetch</code> en JavaScript</td><td>Accéder à Internet, y compris pour envoyer le texte sélectionné à un site.</td></tr>
+              <tr><td><code>applescript</code></td><td>les actions AppleScript, <code>sel.runAppleScript</code></td><td>Contrôler d'autres applications, lire leurs données et agir à votre place.</td></tr>
+              <tr><td><code>shell</code></td><td>les actions Shell, <code>sel.runShellScript</code></td><td>Exécuter des commandes avec vos droits, donc lire, modifier ou supprimer vos fichiers.</td></tr>
+            </tbody>
+          </table></div>
+          <p><code>applescript</code> et <code>shell</code> sont ajoutés d'office à une extension qui a une action de ce langage ; <code>network</code> doit être déclaré. Une extension sans aucun de ces droits s'installe directement. Sinon, Sélecta affiche cette liste et attend votre accord ; le bouton par défaut est « Annuler ». Une fonction appelée sans son entitlement échoue avec un message qui le nomme.</p>
+          <p>Si les fichiers d'une telle extension changent après l'installation, Sélecta la désactive et vous redemande votre accord. Avec iCloud, elle attend aussi votre accord sur chaque Mac. Ne demandez que les droits nécessaires, et dites pourquoi dans <code>description</code>.</p>
+        </section>
+
+        <section id="exemple">
+          <h2>Un exemple complet</h2>
+          <p>Traduire la sélection avec DeepL : un paquet avec une option secrète pour la clé d'API, un menu pour la langue, <code>fetch</code> et des erreurs expliquées. Le résultat devient un bouton qui remplace la sélection.</p>
+          <figure class="code-card" data-lang="yaml">
+            <figcaption class="code-head"><span class="lights"><i></i><i></i><i></i></span><span>DeepL.selectaext/Config.yaml</span></figcaption>
+<pre><code>name: DeepL
+identifier: app.selecta.examples.deepl
+description: Traduit la sélection avec DeepL ; il faut une clé d'API DeepL (gratuite ou Pro). La sélection est envoyée à DeepL.
+icon: symbol:translate
+entitlements: [network]
+options:
+  - identifier: apikey
+    type: secret
+    label: Clé d'API DeepL
+    description: Sur deepl.com, dans votre compte, onglet « Clés API ».
+  - identifier: cible
+    type: multiple
+    label: Traduire vers
+    values: [EN-GB, EN-US, FR, DE, ES, IT, PT-PT, NL, PL, JA, ZH]
+    defaultValue: EN-GB
+# Le résultat devient un bouton : un clic le colle à la place de la sélection.
+after: preview-result
+timeout: 15
+javascriptFile: traduire.js</code></pre>
+          </figure>
+          <figure class="code-card" data-lang="js">
+            <figcaption class="code-head"><span class="lights"><i></i><i></i><i></i></span><span>DeepL.selectaext/traduire.js</span></figcaption>
+<pre><code>const key = String(sel.options.apikey).trim()
+if (!key) {
+  sel.showFailure("Saisissez votre clé d'API DeepL dans Réglages › Extensions.")
+  return
+}
+
+// Les clés gratuites finissent par « :fx » et ont leur propre adresse.
+const host = key.endsWith(':fx') ? 'https://api-free.deepl.com' : 'https://api.deepl.com'
+const response = await fetch(`${host}/v2/translate`, {
+  method: 'POST',
+  headers: { Authorization: `DeepL-Auth-Key ${key}`, 'Content-Type': 'application/json' },
+  body: JSON.stringify({ text: [sel.input.text], target_lang: sel.options.cible }),
+})
+
+const problems = {
+  403: "DeepL refuse cette clé d'API : vérifiez-la dans Réglages › Extensions.",
+  429: 'Trop de demandes envoyées à DeepL : réessayez dans un instant.',
+  456: 'Le quota de caractères de votre compte DeepL est épuisé pour ce mois.',
+}
+if (!response.ok) {
+  sel.showFailure(problems[response.status] ?? `DeepL a répondu ${response.status} (${response.statusText}).`)
+  return
+}
+
+const data = await response.json()
+return data.translations.map(translation => translation.text).join('')</code></pre>
+          </figure>
+        </section>
+
+        <section id="reference">
+          <h2>Référence des clés</h2>
+          <h3>L'extension</h3>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Clé</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>name</code></td><td><b>Obligatoire.</b> Nom affiché dans les réglages ; titre du bouton quand l'action est décrite à la racine.</td></tr>
+              <tr><td><code>identifier</code></td><td>Identifiant unique, de préférence à l'envers d'un nom de domaine (<code>com.exemple.bonjour</code>) : lettres, chiffres, points et tirets, 100 caractères au plus. Sans lui, Sélecta le tire du nom.</td></tr>
+              <tr><td><code>description</code></td><td>Une phrase sur ce que fait l'extension.</td></tr>
+              <tr><td><code>icon</code></td><td>Icône des actions qui n'en ont pas.</td></tr>
+              <tr><td><code>options</code></td><td>Réglages proposés à l'utilisateur.</td></tr>
+              <tr><td><code>entitlements</code></td><td><code>network</code>, <code>applescript</code>, <code>shell</code>.</td></tr>
+              <tr><td><code>actions</code></td><td>La liste des actions, ou une seule action décrite à la racine.</td></tr>
+            </tbody>
+          </table></div>
+          <p>Une clé inconnue est une erreur, sauf si elle commence par <code>x-</code> (<code>x-author</code>, <code>x-version</code>…) : ces clés sont libres et ignorées.</p>
+
+          <h3>Une action</h3>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Clé</th><th>Par défaut</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>title</code></td><td>le nom de l'extension</td><td>Titre du bouton, lu par VoiceOver et affiché sans icône. Obligatoire dans <code>actions</code>.</td></tr>
+              <tr><td><code>icon</code></td><td>celle de l'extension</td><td>Voir <a href="#icones">Icônes</a>.</td></tr>
+              <tr><td><code>requirements</code></td><td><code>[text]</code></td><td>Conditions d'apparition.</td></tr>
+              <tr><td><code>regex</code></td><td>aucune</td><td>Ce que la sélection doit contenir.</td></tr>
+              <tr><td><code>apps</code></td><td>toutes</td><td>Les seules apps où le bouton apparaît.</td></tr>
+              <tr><td><code>excludedApps</code></td><td>aucune</td><td>Les apps où il n'apparaît pas.</td></tr>
+              <tr><td><code>before</code></td><td>rien</td><td><code>copy</code> : copie la sélection avant l'action.</td></tr>
+              <tr><td><code>after</code></td><td>rien</td><td>Ce que devient le résultat.</td></tr>
+              <tr><td><code>stayVisible</code></td><td><code>false</code></td><td>Garde la barre ouverte après une action rapide.</td></tr>
+              <tr><td><code>timeout</code></td><td><code>10</code></td><td>Durée maximale en secondes, de 0 à 60.</td></tr>
+              <tr><td><code>interpreter</code></td><td>le shebang, sinon <code>/bin/zsh</code></td><td>Interpréteur d'un script Shell, chemin absolu.</td></tr>
+            </tbody>
+          </table></div>
+
+          <h3>Ce que fait le clic</h3>
+          <p>Une action a <b>une seule</b> de ces clés :</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Clé</th><th>Valeur</th></tr></thead>
+            <tbody>
+              <tr><td><code>url</code></td><td>Une adresse, où <code>***</code> devient la sélection.</td></tr>
+              <tr><td><code>keyCombo</code></td><td>Une combinaison de touches.</td></tr>
+              <tr><td><code>service</code></td><td>Le nom anglais d'un service macOS.</td></tr>
+              <tr><td><code>shortcut</code></td><td>Le nom d'un Raccourci.</td></tr>
+              <tr><td><code>javascript</code>, <code>typescript</code></td><td>Du code.</td></tr>
+              <tr><td><code>javascriptFile</code></td><td>Un fichier <code>.js</code> ou <code>.ts</code> du paquet.</td></tr>
+              <tr><td><code>appleScript</code>, <code>appleScriptFile</code></td><td>Du code, ou un fichier texte du paquet (pas un <code>.scpt</code> compilé).</td></tr>
+              <tr><td><code>shellScript</code>, <code>shellScriptFile</code></td><td>Du code, ou un fichier du paquet.</td></tr>
+            </tbody>
+          </table></div>
+          <p>Les listes (<code>requirements</code>, <code>apps</code>, <code>excludedApps</code>, <code>entitlements</code>) acceptent aussi une seule valeur sans crochets.</p>
+        </section>
+
+        <section id="limites">
+          <h2>Limites</h2>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Quoi</th><th>Limite</th></tr></thead>
+            <tbody>
+              <tr><td>Archive <code>.selectaextz</code></td><td>20 Mo</td></tr>
+              <tr><td>Paquet décompressé</td><td>50 Mo et 500 fichiers</td></tr>
+              <tr><td>Snippet (fichier)</td><td>1 Mo</td></tr>
+              <tr><td>Snippet sélectionné</td><td>64 Ko</td></tr>
+              <tr><td><code>timeout</code> d'une action</td><td>60 secondes (10 par défaut)</td></tr>
+              <tr><td>Réponse de <code>fetch</code></td><td>10 Mo</td></tr>
+              <tr><td>Sortie d'un script Shell ou AppleScript</td><td>10 Mo</td></tr>
+              <tr><td>Icône <code>text:</code></td><td>6 caractères</td></tr>
+              <tr><td><code>identifier</code></td><td>100 caractères</td></tr>
+            </tbody>
+          </table></div>
+        </section>
+
+        <section id="depannage">
+          <h2>Dépannage</h2>
+          <dl class="faq-list">
+            <dt>L'installation est refusée</dt>
+            <dd>Le message donne la clé fautive et sa ligne, par exemple <code>actions[1].requirements (ligne 9) : « urll » n'est pas un requirement connu</code>. <code>actions[1]</code> est la deuxième action : on compte à partir de 0.</dd>
+            <dt>Le bouton n'apparaît pas</dt>
+            <dd>Vérifiez dans l'onglet Actions que l'action est cochée, puis <code>requirements</code> (<code>paste</code> demande un champ modifiable), <code>regex</code>, <code>apps</code> et <code>excludedApps</code>. Les exclusions de Sélecta cachent aussi la barre entière dans certaines apps.</dd>
+            <dt>« … est introuvable. »</dt>
+            <dd>Pour un service, ce n'est pas le nom anglais déclaré par l'app. Pour un Raccourci, le nom ne correspond pas exactement, majuscules et accents compris.</dd>
+            <dt>« … a mis trop de temps et a été arrêté. »</dt>
+            <dd>Augmentez <code>timeout</code>, jusqu'à 60. Pour un AppleScript, c'est aussi ce qui arrive au premier clic qui déclenche la demande d'Automatisation.</dd>
+            <dt>« Cette extension n'a pas le droit… »</dt>
+            <dd>Ajoutez l'entitlement nommé dans le message à <code>entitlements</code>, puis réinstallez l'extension.</dd>
+            <dt>Le résultat n'est ni collé ni affiché</dt>
+            <dd>Il faut un <code>after</code>, et un résultat vide ne fait rien.</dd>
+            <dt>Lire les messages d'erreur et les <code>console.log</code></dt>
+            <dd>Le message complet est dans les journaux de Sélecta. Ouvrez l'app Console (ou « Ouvrir Console » dans l'onglet Extensions), cliquez sur « Démarrer », tapez <code>subsystem:app.selecta</code> dans la recherche, puis cliquez sur le bouton de l'extension. Pour voir aussi les <code>console.log</code> et la sortie d'erreur des scripts, activez « Journaux des extensions » dans l'onglet Extensions et ajoutez <code>category:Extension</code> à la recherche ; désactivez-le ensuite.</dd>
+          </dl>
+        </section>
+
+        <section id="editeur">
+          <h2>Outils pour votre éditeur</h2>
+          <p>Deux fichiers donnent l'autocomplétion et signalent les erreurs avant l'installation.</p>
+          <div class="downloads">
+            <a class="download-card" href="selecta-config.schema.json" download>
+              <span class="download-kind">Schéma JSON</span>
+              <b>selecta-config.schema.json</b>
+              <span>Les clés de <code>Config.yaml</code>, <code>Config.json</code> et de l'en-tête d'un snippet.</span>
+            </a>
+            <a class="download-card" href="selecta.d.ts" download>
+              <span class="download-kind">Déclarations TypeScript</span>
+              <b>selecta.d.ts</b>
+              <span><code>sel</code>, <code>fetch</code>, <code>util</code> et la forme d'une config, pour JavaScript et TypeScript.</span>
+            </a>
+          </div>
+          <h3>Dans un <code>Config.yaml</code></h3>
+          <p>Dans VS Code, avec l'extension YAML de Red Hat, mettez en première ligne :</p>
+          <figure class="code-card" data-lang="yaml">
+<pre><code># yaml-language-server: $schema=https://rapha-blt.github.io/selecta/extensions/selecta-config.schema.json</code></pre>
+          </figure>
+          <p>Pour un <code>Config.json</code>, associez le schéma au fichier dans le réglage <code>json.schemas</code> de VS Code : une clé <code>$schema</code> dans la config serait refusée comme clé inconnue.</p>
+          <h3>Dans un script</h3>
+          <p>Copiez <code>selecta.d.ts</code> à côté de vos scripts, et ajoutez en première ligne, ou juste après l'en-tête d'un snippet :</p>
+          <figure class="code-card" data-lang="js">
+<pre><code>/// &lt;reference path="selecta.d.ts" /&gt;</code></pre>
+          </figure>
+          <p>Pour que l'éditeur ne propose pas les fonctions d'un navigateur (<code>document</code>, <code>window</code>…), ajoutez dans le même dossier un <code>jsconfig.json</code>, ou un <code>tsconfig.json</code> pour du TypeScript :</p>
+          <figure class="code-card" data-lang="json">
+            <figcaption class="code-head"><span class="lights"><i></i><i></i><i></i></span><span>jsconfig.json</span></figcaption>
+<pre><code>{ "compilerOptions": { "target": "es2023", "lib": ["es2023"], "checkJs": true } }</code></pre>
+          </figure>
+          <p>L'éditeur peut souligner un <code>return</code> ou un <code>await</code> au premier niveau du script : pour Sélecta, ce n'est pas une erreur.</p>
+        </section>
+
+        <aside class="guide-end">
+          <img src="../assets/icon.png" alt="" width="56" height="56">
+          <div>
+            <h2>Pas encore Sélecta ?</h2>
+            <p>Pour macOS 14 ou plus récent, Apple Silicon et Intel.</p>
+          </div>
+          <a class="button" data-download href="https://github.com/rapha-blt/selecta/releases/latest">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.5v8m0 0-3.2-3.2M8 10.5l3.2-3.2M3 13.5h10"/></svg>
+            Télécharger pour Mac
+          </a>
+        </aside>
+      </article>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a class="brand brand-small" href="../"><img src="../assets/icon.png" alt="" width="20" height="20">Sélecta</a>
+      <nav aria-label="Liens">
+        <a href="./">Créer une extension</a>
+        <a href="https://github.com/rapha-blt/selecta/releases">Toutes les versions</a>
+        <a href="../appcast.xml">Flux des mises à jour</a>
+        <a href="https://github.com/rapha-blt/selecta">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
