@@ -181,7 +181,7 @@
     </section>
 
     <section class="section" id="extensions">
-      <div class="container split">
+      <div class="container split split-top">
         <div class="split-text reveal">
           <p class="eyebrow">Extensions</p>
           <h2>Ajoutez <span class="mark">vos propres actions</span>.</h2>
@@ -195,19 +195,40 @@
           <p class="note"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.6"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg>Une extension qui va au-delà de votre sélection (Internet, AppleScript, Shell) vous montre d'abord ce qu'elle pourra faire et attend votre accord.</p>
           <a class="guide-link" href="extensions/">Créer une extension : le guide<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10m0 0L9 4m4 4-4 4"/></svg></a>
         </div>
-        <div class="split-art reveal" style="--d: 120ms">
-          <div class="code-card">
-            <div class="code-head"><span class="lights"><i></i><i></i><i></i></span><span>Wikipedia.selectaext/Config.yaml</span></div>
-<pre><code><span class="c"># Une action sans code : une adresse où *** devient la sélection.</span>
-<span class="k">name:</span> Wikipédia
-<span class="k">identifier:</span> app.selecta.examples.wikipedia
-<span class="k">description:</span> Cherche la sélection dans Wikipédia en français.
-<span class="k">icon:</span> text:W
-<span class="k">requirements:</span> [text, <span class="s">'!url'</span>]
-<span class="k">url:</span> https://fr.wikipedia.org/w/index.php?search=<span class="m">***</span></code></pre>
+        <div class="split-art reveal" style="--d: 120ms" data-showcase>
+          <div class="ext-chips" role="group" aria-label="Exemples d'extensions">
+            <button type="button" data-ext="deepl" aria-pressed="false">Traduire avec DeepL</button>
+            <button type="button" data-ext="wikipedia" aria-pressed="true">Wikipédia</button>
+            <button type="button" data-ext="markdown" aria-pressed="false">Markdown → HTML</button>
+            <button type="button" data-ext="bold" aria-pressed="false">Gras</button>
+            <button type="button" data-ext="count" aria-pressed="false">Compteur de mots</button>
+            <button type="button" data-ext="shortcut" aria-pressed="false">Raccourcis</button>
           </div>
-          <div class="ext-chips" aria-label="Exemples d'extensions">
-            <span>Traduire avec DeepL</span><span>Wikipédia</span><span>Markdown → HTML</span><span>Gras</span><span>Compteur de mots</span><span>Raccourcis</span>
+          <div class="window ext-window" aria-hidden="true">
+            <div class="window-bar">
+              <span class="lights"><i></i><i></i><i></i></span>
+              <span class="window-title" data-ext-title>Histoire de l'informatique</span>
+            </div>
+            <div class="window-body" data-ext-stage>
+              <div class="doc"><p data-ext-text>La première programmeuse est Ada Lovelace, en 1843.</p></div>
+              <div class="bar" data-bar></div>
+              <div class="toast" data-toast></div>
+              <div class="cursor" data-cursor>
+                <svg class="cursor-arrow" viewBox="0 0 20 24"><path d="M2 2v17.5l4.6-4.4 3 6.9 3.2-1.4-3-6.8h6.4z"/></svg>
+                <svg class="cursor-beam" viewBox="0 0 12 22"><path d="M2.5 2h2.6c.6 0 .9.4.9.9 0-.5.3-.9.9-.9h2.6M6 3v16M2.5 20h2.6c.6 0 .9-.4.9-.9 0 .5.3.9.9.9h2.6"/></svg>
+              </div>
+            </div>
+          </div>
+          <p class="ext-caption" data-ext-caption>Un nom : W le cherche dans Wikipédia, sans une ligne de code.</p>
+          <div class="code-card ext-code">
+            <div class="code-head"><span class="lights"><i></i><i></i><i></i></span><span data-ext-file>Wikipedia.selectaext/Config.yaml</span></div>
+<pre><code data-ext-code># Une action sans code : une adresse où *** devient la sélection.
+name: Wikipédia
+identifier: app.selecta.examples.wikipedia
+description: Cherche la sélection dans Wikipédia en français.
+icon: text:W
+requirements: [text, '!url']
+url: https://fr.wikipedia.org/w/index.php?search=***</code></pre>
           </div>
         </div>
       </div>

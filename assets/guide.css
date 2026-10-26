@@ -53,7 +53,6 @@
 .prose .code-card + .code-card { margin-top: 14px; }
 .code-card .code-head { margin: 0; }
 .code-card .code-head > span:not(.lights) { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--mono); }
-.code-card .w { color: #8fb8ff; }
 .copy {
   margin-left: auto; flex: none; padding: 3px 10px; border-radius: 7px;
   background: transparent; border: 1px solid rgba(255, 255, 255, 0.14); color: #b7bcc4;

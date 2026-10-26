@@ -4,32 +4,10 @@
 
 // MARK: Code colors
 
-// One pattern per language; each named group is a color class of site.css
-// and guide.css (c comment, s string, k key or name, w word, m placeholder).
-const grammars = {
-  yaml: /(?<c>(?:^|(?<=\s))#.*)|(?<s>'[^'\n]*'|"[^"\n]*")|(?<k>(?<=^\s*(?:- )?)[\w$-]+(?=:(?:\s|$)))|(?<m>\*\*\*)/gm,
-  js: /(?<c>\/\/.*|\/\*[\s\S]*?\*\/)|(?<s>`(?:\\[\s\S]|[^`\\])*`|'(?:\\.|[^'\\\n])*'|"(?:\\.|[^"\\\n])*")|(?<w>\b(?:const|let|return|await|async|if|else|for|of|new|function|interface|type|true|false|null|undefined)\b)|(?<k>\b(?:sel|util|fetch)\b)/g,
-  sh: /(?<c>(?:^|(?<=\s))#.*)|(?<s>"(?:\\.|[^"\\])*"|'[^']*')|(?<k>\$\{?\w+(?::\w)?\}?)/gm,
-  applescript: /(?<c>--.*)|(?<s>"(?:\\.|[^"\\])*")|(?<w>\b(?:tell|end|application|make|new|with|properties|return|say)\b)|(?<k>\bselecta\w+)/g,
-  json: /(?<k>"[^"\n]*"(?=\s*:))|(?<s>"[^"\n]*")/g,
-};
+// The patterns and `highlight` are in site.js, shared with the home page.
 
 // The title of a block that does not name a file.
 const languages = { yaml: "YAML", js: "JavaScript", sh: "Shell", applescript: "AppleScript", json: "JSON" };
-
-const escape = (text) => text.replace(/[&<>]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[character]);
-
-function highlight(code, grammar) {
-  const text = code.textContent;
-  let html = "";
-  let last = 0;
-  for (const match of text.matchAll(grammar)) {
-    const [kind] = Object.entries(match.groups).find(([, value]) => value !== undefined);
-    html += escape(text.slice(last, match.index)) + `<span class="${kind}">${escape(match[0])}</span>`;
-    last = match.index + match[0].length;
-  }
-  code.innerHTML = html + escape(text.slice(last));
-}
 
 // MARK: Copy buttons
 
